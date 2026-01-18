@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeBackToTop();
     initializeCurrencyConverter();
     initializeWeatherSearch();
+    initializeAboutCounters();
 });
 
 // ========== MOBILE NAVIGATION TOGGLE ==========
@@ -496,6 +497,58 @@ function initializeBackToTop() {
     });
     
     console.log('✓ Back to top button initialized');
+}
+
+// ========== ABOUT SECTION COUNTERS ==========
+
+/**
+ * Animated counter for about section statistics
+ * Counts up to target numbers when section comes into view
+ */
+function initializeAboutCounters() {
+    const counters = document.querySelectorAll('.count-up');
+    if (counters.length === 0) return;
+
+    let hasAnimated = false;
+
+    const animateCounter = (counter) => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        let current = 0;
+
+        const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+                counter.textContent = Math.floor(current);
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = target;
+            }
+        };
+
+        updateCounter();
+    };
+
+    // Intersection Observer to trigger animation when section is visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !hasAnimated) {
+                hasAnimated = true;
+                counters.forEach(counter => {
+                    animateCounter(counter);
+                });
+            }
+        });
+    }, { threshold: 0.5 });
+
+    // Observe the about section
+    const aboutSection = document.querySelector('.about-stats');
+    if (aboutSection) {
+        observer.observe(aboutSection);
+    }
+
+    console.log('✓ About counters initialized');
 }
 
 // ========== CURRENCY CONVERTER ==========
