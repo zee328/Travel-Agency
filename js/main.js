@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeBackToTop();
     initializeCurrencyConverter();
     initializeWeatherSearch();
-    initializeAboutCounters();
 });
 
 // ========== MOBILE NAVIGATION TOGGLE ==========
@@ -563,19 +562,27 @@ function initializeCurrencyConverter() {
     const toCurrency = document.getElementById('toCurrency');
     const convertedAmount = document.getElementById('convertedAmount');
     
-    if (!amountInput || !fromCurrency || !toCurrency || !convertedAmount) return;
+    if (!amountInput || !fromCurrency || !toCurrency || !convertedAmount) {
+        console.warn('Currency converter elements not found');
+        return;
+    }
     
     /**
      * Convert currency and display result
      */
     function convertCurrency() {
-        const amount = parseFloat(amountInput.value) || 0;
-        const from = fromCurrency.value;
-        const to = toCurrency.value;
+        try {
+            const amount = parseFloat(amountInput.value) || 0;
+            const from = fromCurrency.value;
+            const to = toCurrency.value;
 
-        const result = convertCurrencyAmount(amount, from, to);
-        const formatted = formatCurrencyAmount(result, to);
-        convertedAmount.textContent = formatted;
+            const result = convertCurrencyAmount(amount, from, to);
+            const formatted = formatCurrencyAmount(result, to);
+            convertedAmount.textContent = formatted;
+        } catch (error) {
+            console.error('Currency conversion error:', error);
+            convertedAmount.textContent = 'Error';
+        }
     }
     
     // Add event listeners
