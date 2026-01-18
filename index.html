@@ -324,50 +324,19 @@
                     </div>
                 </div>
 
-                <!-- Google Map Location with Enhanced Styling -->
-                <div class="map-card premium-card">
-                    <div class="map-details">
-                        <div class="office-badge">🏢 Our Office</div>
-                        <h3>Visit Our Office</h3>
-                        <p class="office-name">zee trivago Travel Agency</p>
-                        <div class="office-details">
-                            <div class="detail-item">
-                                <span class="detail-icon">📍</span>
-                                <div>
-                                    <div class="detail-label">Address</div>
-                                    <div>123 Adventure Street, Travel City, TC 12345</div>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-icon">🕐</span>
-                                <div>
-                                    <div class="detail-label">Hours</div>
-                                    <div class="hours-list">
-                                        <div><span class="day">Monday - Friday:</span> <span class="time">9:00 AM - 6:00 PM EST</span></div>
-                                        <div><span class="day">Saturday:</span> <span class="time">10:00 AM - 4:00 PM EST</span></div>
-                                        <div class="closed"><span class="day">Sunday:</span> <span class="time">Closed</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-icon">📞</span>
-                                <div>
-                                    <div class="detail-label">Phone</div>
-                                    <div><a href="tel:+1234567890" class="contact-link">+1 (234) 567-890</a></div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn-visit" onclick="document.getElementById('map').scrollIntoView({behavior: 'smooth'})">View on Map →</button>
-                    </div>
-                    <div 
-                        id="map" 
-                        class="map" 
-                        data-api-key="YOUR_GOOGLE_MAPS_API_KEY" 
-                        data-lat="40.7128" 
-                        data-lng="-74.0060" 
-                        data-zoom="12"
-                        aria-label="Office location on Google Maps"
-                    ></div>
+                <!-- Contact information displayed alongside form -->
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <address>
+                        <!-- ADDRESS tag for contact details - semantic markup for location/contact info -->
+                        <p><strong>zee trivago Travel Agency</strong></p>
+                        <p>123 Adventure Street<br>
+                        Travel City, TC 12345<br>
+                        United States</p>
+                        <p><strong>Phone:</strong> <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+                        <p><strong>Email:</strong> <a href="mailto:hello@zeetrivago.com">hello@zeetrivago.com</a></p>
+                        <p><strong>Hours:</strong> Monday - Friday, 9am - 6pm EST</p>
+                    </address>
                 </div>
             </div>
         </section>

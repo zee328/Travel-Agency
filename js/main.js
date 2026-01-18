@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeWeatherSearch();
     initializePackages();
     fetchTestimonials();
-    initializeMap();
 });
 
 // ========== MOBILE NAVIGATION TOGGLE ==========
@@ -622,70 +621,6 @@ async function submitContactForm(payload) {
 }
 
 // ========== UTILITY FUNCTIONS ==========
-
-// ========== GOOGLE MAPS ========== 
-
-let mapsScriptLoaded = false;
-
-function initializeMap() {
-    const mapEl = document.getElementById('map');
-    if (!mapEl) return;
-
-    const apiKey = mapEl.dataset.apiKey;
-    if (!apiKey || apiKey === 'YOUR_GOOGLE_MAPS_API_KEY') {
-        console.warn('Google Maps API key is missing. Please set data-api-key on #map.');
-        return;
-    }
-
-    loadGoogleMaps(apiKey)
-        .then(() => buildMap(mapEl))
-        .catch(err => {
-            console.error('Failed to load Google Maps', err);
-            mapEl.innerHTML = '<p class="error">Map unavailable right now.</p>';
-        });
-}
-
-function loadGoogleMaps(apiKey) {
-    if (mapsScriptLoaded) return Promise.resolve();
-    return new Promise((resolve, reject) => {
-        if (window.google && window.google.maps) {
-            mapsScriptLoaded = true;
-            resolve();
-            return;
-        }
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=__initMapCallback`;
-        script.async = true;
-        script.defer = true;
-        window.__initMapCallback = () => {
-            mapsScriptLoaded = true;
-            resolve();
-        };
-        script.onerror = reject;
-        document.head.appendChild(script);
-    });
-}
-
-function buildMap(mapEl) {
-    const lat = parseFloat(mapEl.dataset.lat) || 0;
-    const lng = parseFloat(mapEl.dataset.lng) || 0;
-    const zoom = parseInt(mapEl.dataset.zoom, 10) || 12;
-    const center = { lat, lng };
-
-    const map = new google.maps.Map(mapEl, {
-        center,
-        zoom,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false
-    });
-
-    new google.maps.Marker({
-        position: center,
-        map,
-        title: 'zee trivago Travel Agency'
-    });
-}
 
 // ========== AI CHATBOT FUNCTIONALITY ==========
 

@@ -54,7 +54,7 @@ const formLimiter = rateLimit({
 app.use('/api/', apiLimiter);
 
 app.get('/health', (_req, res) => res.json({ ok: true }));
-app.use('/api/destinations', requireAuth, destinations);
+app.use('/api/destinations', destinations);
 app.use('/api/testimonials', testimonials);
 app.use('/api/newsletter', formLimiter, newsletter);
 app.use('/api/contact', formLimiter, contact);
