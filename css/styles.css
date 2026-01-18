@@ -936,6 +936,107 @@ section {
 .contact-info {
   flex: 1;
   min-width: 300px;
+  padding: var(--spacing-xl);
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95),
+    rgba(249, 250, 251, 0.95)
+  );
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.contact-info .info-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.contact-info .info-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.contact-info .info-header h3 {
+  margin: 0;
+  color: var(--dark-color);
+  font-size: 1.75rem;
+}
+
+.contact-info .info-item {
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  border-left: 4px solid var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.contact-info .info-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info .info-label {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contact-info .info-item p {
+  margin: 0;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.contact-info .contact-link {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.contact-info .contact-link:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.contact-info .hours-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.contact-info .hours-grid > div {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.contact-info .hours-grid .day {
+  font-weight: 500;
+  color: var(--dark-color);
+}
+
+.contact-info .hours-grid .time {
+  color: var(--text-light);
+}
+
+.contact-info .hours-grid .closed {
+  opacity: 0.6;
+}
+
+.contact-info .hours-grid .closed .time {
+  color: #dc2626;
+  font-weight: 600;
 }
 
 .contact-info h3 {
