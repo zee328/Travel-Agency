@@ -47,6 +47,7 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#services">Services</a></li>
+                <li><a href="#packages">Packages</a></li>
                 <li><a href="#about">About Us</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -145,6 +146,21 @@
                 
                 <div class="testimonials-grid" id="testimonialsGrid">
                     <p class="loading">Loading testimonials...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            TRAVEL PACKAGES SECTION
+            Displays available travel packages with facilities and booking options
+        -->
+        <section id="packages" class="packages-section">
+            <div class="container">
+                <h2>Our Travel Packages</h2>
+                <p class="section-subtitle">Curated experiences with complete facilities and hassle-free booking</p>
+                
+                <div id="packagesGrid" class="packages-grid">
+                    <!-- Package cards will be dynamically loaded here -->
                 </div>
             </div>
         </section>
@@ -422,6 +438,16 @@
             </div>
         </div>
     </footer>
+
+    <!-- Package Details Modal -->
+    <div id="packageModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <div id="modalBody">
+                <!-- Package details will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
 
     <!-- 
         CHATBOT WIDGET: AI-powered assistant for user support

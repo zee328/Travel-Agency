@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeBackToTop();
     initializeCurrencyConverter();
     initializeWeatherSearch();
+    initializePackages();
     fetchTestimonials();
     initializeMap();
 });
@@ -918,6 +919,259 @@ function logPageInfo() {
     console.log('Loaded at:', new Date().toLocaleString());
     console.log('User Agent:', navigator.userAgent);
     console.log('═══════════════════════════════════════');
+}
+
+// ========== TRAVEL PACKAGES ==========
+
+/**
+ * Initialize travel packages functionality
+ * Loads and displays packages with booking capabilities
+ */
+async function initializePackages() {
+    const packagesGrid = document.getElementById('packagesGrid');
+    
+    if (!packagesGrid) return;
+    
+    try {
+        // Fetch packages from local JSON file
+        const response = await fetch('data/packages.json');
+        const data = await response.json();
+        const packages = data.packages;
+        
+        // Display package cards
+        packagesGrid.innerHTML = packages.map(pkg => createPackageCard(pkg)).join('');
+        
+        // Add event listeners for "View Details" buttons
+        document.querySelectorAll('.btn-view-details').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const packageId = parseInt(btn.dataset.packageId);
+                const selectedPackage = packages.find(p => p.id === packageId);
+                openPackageModal(selectedPackage);
+            });
+        });
+        
+        console.log('✓ Packages loaded successfully');
+    } catch (error) {
+        console.error('Error loading packages:', error);
+        packagesGrid.innerHTML = '<p class="error">Unable to load packages. Please try again later.</p>';
+    }
+}
+
+/**
+ * Create HTML for a package card
+ */
+function createPackageCard(pkg) {
+    const popularBadge = pkg.popular ? '<span class="package-badge">POPULAR</span>' : '';
+    const destinations = pkg.destinations.map(dest => `<span class="destination-tag">${dest}</span>`).join('');
+    
+    return `
+        <div class="package-card">
+            <img src="${pkg.image}" alt="${pkg.name}" class="package-image" onerror="this.src='assets/images/travelp1.jpg'">
+            <div class="package-content">
+                ${popularBadge}
+                <h3 class="package-title">${pkg.name}</h3>
+                <p class="package-description">${pkg.description}</p>
+                
+                <div class="package-destinations">
+                    ${destinations}
+                </div>
+                
+                <div class="package-details">
+                    <div class="package-detail-item">
+                        <span class="detail-icon">⏱️</span>
+                        <span>${pkg.duration}</span>
+                    </div>
+                    <div class="package-detail-item">
+                        <span class="detail-icon">👥</span>
+                        <span>${pkg.groupSize}</span>
+                    </div>
+                    <div class="package-detail-item">
+                        <span class="detail-icon">📊</span>
+                        <span>${pkg.difficulty}</span>
+                    </div>
+                    <div class="package-detail-item">
+                        <span class="detail-icon">🏨</span>
+                        <span>${pkg.facilities[0]}</span>
+                    </div>
+                </div>
+                
+                <div class="package-price">
+                    <div>
+                        <div class="price-label">Starting from</div>
+                        <div class="price-amount">$${pkg.price.toLocaleString()}</div>
+                    </div>
+                </div>
+                
+                <div class="package-actions">
+                    <button class="btn-view-details" data-package-id="${pkg.id}">
+                        View Package Details
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Open package details modal
+ */
+function openPackageModal(pkg) {
+    const modal = document.getElementById('packageModal');
+    const modalBody = document.getElementById('modalBody');
+    
+    // Create modal content
+    const facilitiesList = pkg.facilities.map(f => `<div class="facility-item">${f}</div>`).join('');
+    const includesList = pkg.includes.map(i => `<li>${i}</li>`).join('');
+    const itineraryHtml = pkg.itinerary.map(day => `
+        <div class="itinerary-day">
+            <h4>Day ${day.day}: ${day.title}</h4>
+            <ul class="itinerary-activities">
+                ${day.activities.map(a => `<li>${a}</li>`).join('')}
+            </ul>
+        </div>
+    `).join('');
+    
+    modalBody.innerHTML = `
+        <div class="modal-header">
+            <img src="${pkg.image}" alt="${pkg.name}" onerror="this.src='assets/images/travelp1.jpg'">
+            <div class="modal-title-overlay">
+                <h2>${pkg.name}</h2>
+                <p>${pkg.description}</p>
+            </div>
+        </div>
+        
+        <div class="modal-body">
+            <div class="modal-section">
+                <h3>📍 Destinations</h3>
+                <p>${pkg.destinations.join(' → ')}</p>
+            </div>
+            
+            <div class="modal-section">
+                <h3>🏨 Facilities</h3>
+                <div class="facilities-grid">
+                    ${facilitiesList}
+                </div>
+            </div>
+            
+            <div class="modal-section">
+                <h3>✅ Package Includes</h3>
+                <ul class="includes-list">
+                    ${includesList}
+                </ul>
+            </div>
+            
+            <div class="modal-section">
+                <h3>📅 Sample Itinerary</h3>
+                ${itineraryHtml}
+            </div>
+            
+            <div class="modal-section">
+                <div class="payment-section">
+                    <h3 style="color: white;">💳 Book This Package</h3>
+                    <div class="payment-price">$${pkg.price.toLocaleString()}</div>
+                    <p>per person (${pkg.duration})</p>
+                    <button class="btn-book-now" onclick="initiatePayment(${pkg.id}, ${pkg.price})">
+                        Book Now - Secure Payment
+                    </button>
+                    <p class="secure-payment">🔒 Secure payment powered by Stripe</p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Close modal functionality
+ */
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('packageModal');
+    const modalClose = document.getElementById('modalClose');
+    
+    if (e.target === modal || e.target === modalClose) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+});
+
+/**
+ * Initiate payment process with Stripe
+ */
+async function initiatePayment(packageId, amount) {
+    try {
+        // Show loading state
+        const button = event.target;
+        button.disabled = true;
+        button.textContent = 'Processing...';
+        
+        // Get package details from the current modal
+        const packageName = document.querySelector('.modal-title-overlay h2').textContent;
+        
+        // Create checkout session
+        const response = await fetch(`${API_BASE}/payment/create-checkout-session`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                packageId: packageId,
+                packageName: packageName,
+                amount: amount,
+                quantity: 1
+            }),
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.url) {
+            // Redirect to Stripe checkout
+            window.location.href = data.url;
+        } else {
+            throw new Error(data.error || 'Failed to create checkout session');
+        }
+        
+    } catch (error) {
+        console.error('Payment error:', error);
+        alert(`Payment Error: ${error.message}\n\nPlease ensure:\n1. Backend server is running\n2. STRIPE_SECRET_KEY is configured in backend/.env\n3. Contact support if issue persists`);
+        
+        // Reset button
+        const button = event.target;
+        button.disabled = false;
+        button.textContent = 'Book Now - Secure Payment';
+    }
+}
+
+/**
+ * Check payment status on page load (for redirects from Stripe)
+ */
+function checkPaymentStatus() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentStatus = urlParams.get('payment');
+    const sessionId = urlParams.get('session_id');
+    
+    if (paymentStatus === 'success' && sessionId) {
+        // Show success message
+        alert('✅ Payment Successful!\n\nThank you for booking with Zee Trivago.\nA confirmation email will be sent shortly.');
+        
+        // Remove query parameters from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (paymentStatus === 'cancelled') {
+        // Show cancelled message
+        alert('Payment was cancelled. You can try booking again.');
+        
+        // Remove query parameters from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+}
+
+// Check payment status on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', checkPaymentStatus);
+} else {
+    checkPaymentStatus();
 }
 
 // Run logging on page load

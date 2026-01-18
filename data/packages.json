@@ -5,15 +5,48 @@
       "name": "Romantic Europe",
       "description": "Perfect for couples seeking romance in Europe's most beautiful cities.",
       "destinations": ["Paris", "Barcelona", "Venice"],
-      "duration": "12 days",
+      "duration": "12 days / 11 nights",
       "price": 2999,
+      "currency": "USD",
       "image": "assets/images/packages/romantic-europe.jpg",
-      "includes": [
-        "5-star hotel accommodations",
-        "Daily breakfast",
-        "Guided city tours",
-        "Airport transfers"
+      "facilities": [
+        "5-star luxury hotels",
+        "Private airport transfers",
+        "24/7 concierge service",
+        "Complimentary Wi-Fi",
+        "Room service",
+        "Spa access",
+        "Fitness center"
       ],
+      "includes": [
+        "Round-trip international flights",
+        "5-star hotel accommodations",
+        "Daily gourmet breakfast",
+        "Guided city tours with local experts",
+        "Private airport transfers",
+        "Travel insurance",
+        "Seine River dinner cruise",
+        "Skip-the-line museum passes"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in Paris",
+          "activities": ["Airport pickup", "Hotel check-in", "Welcome dinner"]
+        },
+        {
+          "day": 2,
+          "title": "Paris City Tour",
+          "activities": ["Eiffel Tower visit", "Louvre Museum", "Champs-Élysées shopping"]
+        },
+        {
+          "day": 3,
+          "title": "Paris to Barcelona",
+          "activities": ["Morning flight", "Sagrada Familia tour", "Gothic Quarter walk"]
+        }
+      ],
+      "groupSize": "2-10 people",
+      "difficulty": "Easy",
       "popular": true
     },
     {
@@ -21,15 +54,43 @@
       "name": "Asia Adventure",
       "description": "Explore the wonders of Asia with temples, cuisine, and vibrant cultures.",
       "destinations": ["Tokyo", "Bangkok", "Bali"],
-      "duration": "15 days",
+      "duration": "15 days / 14 nights",
       "price": 3499,
+      "currency": "USD",
       "image": "assets/images/packages/asia-adventure.jpg",
-      "includes": [
-        "4-star hotel accommodations",
-        "Breakfast and dinner",
-        "Adventure activities",
-        "Flights between cities"
+      "facilities": [
+        "4-star hotels",
+        "Airport shuttle service",
+        "Free breakfast buffet",
+        "Swimming pool",
+        "Tour desk assistance",
+        "Luggage storage"
       ],
+      "includes": [
+        "International and domestic flights",
+        "4-star hotel accommodations",
+        "Breakfast and dinner daily",
+        "Adventure activities (hiking, snorkeling)",
+        "Flights between cities",
+        "English-speaking guides",
+        "Temple entrance fees",
+        "Cooking class in Bangkok",
+        "Traditional massage session"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in Tokyo",
+          "activities": ["Airport transfer", "Hotel check-in", "Evening at Shibuya"]
+        },
+        {
+          "day": 2,
+          "title": "Tokyo Exploration",
+          "activities": ["Senso-ji Temple", "Tokyo Tower", "Sushi making class"]
+        }
+      ],
+      "groupSize": "4-15 people",
+      "difficulty": "Moderate",
       "popular": true
     },
     {
@@ -37,15 +98,43 @@
       "name": "Beach Escape",
       "description": "Relax and unwind at the world's most beautiful beach destinations.",
       "destinations": ["Bali", "Maldives", "Fiji"],
-      "duration": "10 days",
+      "duration": "10 days / 9 nights",
       "price": 2299,
+      "currency": "USD",
       "image": "assets/images/packages/beach-escape.jpg",
-      "includes": [
-        "Beachfront resorts",
-        "All meals included",
-        "Water sports",
-        "Spa treatments"
+      "facilities": [
+        "Beachfront luxury resorts",
+        "Private beach access",
+        "Infinity pools",
+        "Spa and wellness center",
+        "Water sports center",
+        "Beach bar and restaurant",
+        "Sunset lounge"
       ],
+      "includes": [
+        "Round-trip flights",
+        "Beachfront resort accommodations",
+        "All meals included (breakfast, lunch, dinner)",
+        "Unlimited water sports (kayaking, paddle boarding)",
+        "Spa treatments (2 sessions)",
+        "Sunset cruise",
+        "Snorkeling equipment",
+        "Beach yoga classes"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in Bali",
+          "activities": ["Airport pickup", "Resort check-in", "Welcome cocktail"]
+        },
+        {
+          "day": 2,
+          "title": "Beach Relaxation",
+          "activities": ["Morning yoga", "Beach time", "Spa treatment"]
+        }
+      ],
+      "groupSize": "2-8 people",
+      "difficulty": "Easy",
       "popular": false
     },
     {
@@ -53,15 +142,42 @@
       "name": "City Hopper",
       "description": "Visit multiple iconic cities in one unforgettable journey.",
       "destinations": ["New York", "Miami", "Los Angeles"],
-      "duration": "10 days",
+      "duration": "10 days / 9 nights",
       "price": 2199,
+      "currency": "USD",
       "image": "assets/images/packages/city-hopper.jpg",
-      "includes": [
-        "4-star hotels",
-        "Breakfast daily",
-        "City tours",
-        "Entertainment passes"
+      "facilities": [
+        "4-star city hotels",
+        "Central locations",
+        "Complimentary Wi-Fi",
+        "Business center",
+        "Rooftop bar",
+        "Gym facilities"
       ],
+      "includes": [
+        "Domestic flights between cities",
+        "4-star hotels in prime locations",
+        "Breakfast daily",
+        "City tours with local guides",
+        "Entertainment passes (Broadway show, theme parks)",
+        "Hop-on hop-off bus tickets",
+        "Food tour in each city",
+        "Airport transfers"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in New York",
+          "activities": ["JFK pickup", "Hotel check-in", "Times Square evening walk"]
+        },
+        {
+          "day": 2,
+          "title": "NYC Highlights",
+          "activities": ["Statue of Liberty", "Central Park", "Broadway show"]
+        }
+      ],
+      "groupSize": "2-12 people",
+      "difficulty": "Easy",
       "popular": true
     },
     {
@@ -69,15 +185,44 @@
       "name": "Luxury Middle East",
       "description": "Experience opulence and wonder in the heart of the Middle East.",
       "destinations": ["Dubai", "Abu Dhabi"],
-      "duration": "7 days",
+      "duration": "7 days / 6 nights",
       "price": 2899,
+      "currency": "USD",
       "image": "assets/images/packages/luxury-middle-east.jpg",
-      "includes": [
-        "Luxury 5-star accommodations",
-        "Private chauffeur",
-        "Fine dining",
-        "Shopping vouchers"
+      "facilities": [
+        "5-star luxury hotels",
+        "Private butler service",
+        "Infinity pool with city views",
+        "Michelin-star restaurants",
+        "Exclusive spa",
+        "Helipad access",
+        "Private beach club"
       ],
+      "includes": [
+        "First-class international flights",
+        "Luxury 5-star accommodations",
+        "Private chauffeur-driven car",
+        "Fine dining at premium restaurants",
+        "Shopping vouchers ($500 value)",
+        "Desert safari with BBQ dinner",
+        "Burj Khalifa VIP tour",
+        "Yacht cruise",
+        "Gold souk tour"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in Dubai",
+          "activities": ["VIP airport service", "Luxury hotel check-in", "Welcome dinner"]
+        },
+        {
+          "day": 2,
+          "title": "Dubai Highlights",
+          "activities": ["Burj Khalifa tour", "Dubai Mall shopping", "Fountain show"]
+        }
+      ],
+      "groupSize": "2-6 people",
+      "difficulty": "Easy",
       "popular": false
     }
   ]

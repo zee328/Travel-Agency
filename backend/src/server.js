@@ -7,6 +7,7 @@ import destinations from './routes/destinations.js';
 import testimonials from './routes/testimonials.js';
 import newsletter from './routes/newsletter.js';
 import contact from './routes/contact.js';
+import payment from './routes/payment.js';
 import { requireAuth } from './middleware/auth.js';
 
 const app = express();
@@ -26,7 +27,15 @@ app.use(cors({
 }));
 
 app.use(helmet());
-app.use(express.json());
+
+// Parse JSON for all routes except webhook (webhook needs raw body)
+app.use((req, res, next) => {
+  if (req.originalUrl === '/api/payment/webhook') {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -49,6 +58,7 @@ app.use('/api/destinations', requireAuth, destinations);
 app.use('/api/testimonials', requireAuth, testimonials);
 app.use('/api/newsletter', formLimiter, newsletter);
 app.use('/api/contact', formLimiter, contact);
+app.use('/api/payment', payment);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
