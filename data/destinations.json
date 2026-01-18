@@ -1,0 +1,100 @@
+{
+  "destinations": [
+    {
+      "id": 1,
+      "name": "Paris",
+      "country": "France",
+      "description": "Experience the magic of the City of Light with iconic landmarks, world-class museums, and exquisite cuisine.",
+      "image": "assets/images/destinations/paris.jpg",
+      "rating": 4.8,
+      "price": 1299,
+      "duration": "5 days",
+      "highlights": [
+        "Eiffel Tower",
+        "Louvre Museum",
+        "Champs-Élysées",
+        "Notre-Dame Cathedral"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Tokyo",
+      "country": "Japan",
+      "description": "Discover the perfect blend of ancient tradition and cutting-edge modernity in Japan's vibrant capital.",
+      "image": "assets/images/destinations/tokyo.jpg",
+      "rating": 4.7,
+      "price": 1499,
+      "duration": "6 days",
+      "highlights": [
+        "Senso-ji Temple",
+        "Shibuya Crossing",
+        "Tokyo Tower",
+        "Tsukiji Fish Market"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "New York",
+      "country": "USA",
+      "description": "The city that never sleeps awaits! From Broadway to Central Park, experience endless entertainment and culture.",
+      "image": "assets/images/destinations/newyork.jpg",
+      "rating": 4.6,
+      "price": 999,
+      "duration": "4 days",
+      "highlights": [
+        "Statue of Liberty",
+        "Central Park",
+        "Times Square",
+        "Empire State Building"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Bali",
+      "country": "Indonesia",
+      "description": "Escape to tropical paradise with pristine beaches, ancient temples, and world-class resorts.",
+      "image": "assets/images/destinations/bali.jpg",
+      "rating": 4.9,
+      "price": 799,
+      "duration": "5 days",
+      "highlights": [
+        "Ubud Monkey Forest",
+        "Mount Batur",
+        "Tanah Lot Temple",
+        "Beautiful Beaches"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Dubai",
+      "country": "UAE",
+      "description": "Luxury and adventure combine in this desert oasis with stunning architecture and world-class shopping.",
+      "image": "assets/images/destinations/dubai.jpg",
+      "rating": 4.5,
+      "price": 1199,
+      "duration": "4 days",
+      "highlights": [
+        "Burj Khalifa",
+        "Dubai Mall",
+        "Desert Safari",
+        "Palm Jumeirah"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Barcelona",
+      "country": "Spain",
+      "description": "Art, architecture, and beaches combine in this vibrant Mediterranean city filled with Gaudí's masterpieces.",
+      "image": "assets/images/destinations/barcelona.jpg",
+      "rating": 4.7,
+      "price": 899,
+      "duration": "4 days",
+      "highlights": [
+        "Sagrada Familia",
+        "Park Güell",
+        "Gothic Quarter",
+        "Beach & Nightlife"
+      ]
+    }
+  ]
+}

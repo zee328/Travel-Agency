@@ -1,0 +1,22 @@
+import { createClient } from '@supabase/supabase-js';
+
+const url = process.env.SUPABASE_URL;
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!url || !serviceRoleKey) {
+  console.warn('Supabase is not fully configured. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY');
+}
+
+export const supabase = url && serviceRoleKey
+  ? createClient(url, serviceRoleKey, {
+      auth: { autoRefreshToken: false, persistSession: false }
+    })
+  : null;
+
+export function requireSupabase(res) {
+  if (!supabase) {
+    res.status(500).json({ error: 'Supabase not configured' });
+    return false;
+  }
+  return true;
+}

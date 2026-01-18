@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="zee trivago - Your trusted travel agency for unforgettable adventures around the world">
+    <meta name="theme-color" content="#0066cc">
+    <title>zee trivago - Travel Agency</title>
+    
+    <!-- Preconnect to external resources for faster loading -->
+    <link rel="preconnect" href="https://maps.googleapis.com">
+    <link rel="preconnect" href="http://localhost:4000">
+    
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- PWA manifest for installability -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body data-api-base="">
+    <!-- 
+        HEADER: Semantic container for site branding and navigation
+        Using <header> instead of <div> clearly identifies this as the introductory section
+        Improves accessibility for screen readers and semantic clarity for search engines
+    -->
+    <header class="header">
+        <!-- 
+            NAV: Semantic navigation landmark
+            <nav> explicitly marks navigation content, allowing assistive technologies to 
+            provide quick navigation shortcuts and helping search engines identify main navigation
+        -->
+        <nav class="navbar">
+            <!-- Logo section with brand name -->
+            <div class="logo">
+                <h1>zee trivago</h1>
+                <p class="tagline">Explore the World with Us</p>
+            </div>
+            
+            <!-- Hamburger menu toggle button for mobile -->
+            <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- Main navigation links -->
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <!-- Dark mode toggle -->
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- 
+        MAIN: Semantic container for primary page content
+        Using <main> signals to screen readers and search engines that this is the primary content area
+        Should contain only content unique to this page, not repeated across pages (like headers/footers)
+    -->
+    <main>
+        
+        <!-- 
+            HERO IMAGE SECTION: Top banner image for visual appeal
+            Sets the tone and creates immediate visual interest
+        -->
+        <section id="hero-image" class="hero-image">
+            <img src="assets/images/travelp1.jpg" alt="Traveler at airport waiting for flight - ready for adventure" loading="lazy">
+        </section>
+
+        <!-- 
+            HERO SECTION: First impression section with call-to-action
+            Using <section> with a descriptive ID for landmark navigation
+            Contains heading, descriptive text, and primary CTA button
+        -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h2>Explore the World</h2>
+                <p>Discover amazing destinations and create unforgettable memories with zee trivago Travel Agency</p>
+                <a href="#services" class="btn btn-primary">Explore Now</a>
+            </div>
+        </section>
+
+        <!-- 
+            SERVICES SECTION
+            Using <section> to group service offerings
+            Services are key business features that should be highlighted
+        -->
+        <section id="services" class="services">
+            <div class="container">
+                <h2>Our Services</h2>
+                <p class="section-subtitle">Comprehensive travel solutions for every traveler</p>
+                
+                <!-- 
+                    Using a list structure is semantically appropriate for services
+                    More accessible than divs and clearly conveys these are related items
+                -->
+                <ul class="services-list">
+                    <li class="service-item">
+                        <h3>Customized Itineraries</h3>
+                        <p>Tailor-made travel plans designed specifically for your preferences and budget.</p>
+                    </li>
+
+                    <li class="service-item">
+                        <h3>Flight & Hotel Booking</h3>
+                        <p>Exclusive deals on flights and accommodations at competitive rates worldwide.</p>
+                    </li>
+
+                    <li class="service-item">
+                        <h3>Visa Assistance</h3>
+                        <p>Expert guidance through visa applications and travel document requirements.</p>
+                    </li>
+
+                    <li class="service-item">
+                        <h3>Travel Insurance</h3>
+                        <p>Comprehensive coverage for peace of mind during your travels.</p>
+                    </li>
+
+                    <li class="service-item">
+                        <h3>24/7 Support</h3>
+                        <p>Round-the-clock customer service while you're traveling.</p>
+                    </li>
+
+                    <li class="service-item">
+                        <h3>Group Tours</h3>
+                        <p>Guided group experiences with fellow travelers to popular destinations.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 
+            TESTIMONIALS SECTION
+            Showcasing customer reviews and experiences
+        -->
+        <section id="testimonials" class="testimonials">
+            <div class="container">
+                <h2>What Our Travelers Say</h2>
+                <p class="section-subtitle">Real experiences from real travelers</p>
+                
+                <div class="testimonials-grid" id="testimonialsGrid">
+                    <p class="loading">Loading testimonials...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            ABOUT US SECTION
+            Using <section> to group company information and values
+            Helps establish trust and brand identity with visitors
+        -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2>About zee trivago</h2>
+                
+                <!-- Article tag for company story - self-contained narrative content -->
+                <article class="about-content">
+                    <p><strong>zee trivago</strong> is a premier full-service travel agency dedicated to transforming your travel dreams into unforgettable realities. Since our founding in 2010, we've been at the forefront of personalized travel experiences, serving thousands of adventurers, families, and luxury travelers across the globe.</p>
+
+                    <p>Our mission is simple yet profound: to democratize world travel by making it accessible, affordable, and extraordinary for everyone. We believe travel is not just about visiting destinations—it's about immersing yourself in new cultures, forming meaningful connections with people from different backgrounds, and creating memories that shape your life journey.</p>
+
+                    <h3>Our Philosophy</h3>
+                    <p>At zee trivago, we understand that every traveler is unique. That's why we specialize in creating bespoke itineraries tailored to your interests, budget, and travel style. Whether you're seeking adrenaline-pumping adventures in New Zealand, romantic getaways in Paris, spiritual journeys in Bali, or luxury experiences in Dubai—we have the expertise and connections to make it perfect.</p>
+
+                    <h3>Why Choose zee trivago?</h3>
+                    <ul class="about-features">
+                        <li><strong>Expert Consultants:</strong> Our team comprises seasoned travel professionals with first-hand experience across 150+ destinations worldwide. They've lived it, so they know it.</li>
+                        <li><strong>Best Value Guaranteed:</strong> We leverage exclusive partnerships with hotels, airlines, and tour operators to negotiate the best rates you won't find anywhere else.</li>
+                        <li><strong>Personalized Service:</strong> No cookie-cutter packages here. Every itinerary is carefully crafted to match your unique preferences, interests, and travel style.</li>
+                        <li><strong>24/7 Support:</strong> Travel with confidence knowing our team is available around the clock to assist with any questions or emergencies during your journey.</li>
+                        <li><strong>Trusted Partner:</strong> Licensed, insured, and backed by 99% customer satisfaction with thousands of five-star reviews from delighted travelers.</li>
+                        <li><strong>End-to-End Planning:</strong> From visa assistance to travel insurance, flight bookings to hotel reservations, we handle every detail so you can focus on anticipation.</li>
+                    </ul>
+                </article>
+
+                <div class="about-stats">
+                    <div class="stat">
+                        <h4>15+</h4>
+                        <p>Years of Experience</p>
+                    </div>
+                    <div class="stat">
+                        <h4>10000+</h4>
+                        <p>Happy Travelers</p>
+                    </div>
+                    <div class="stat">
+                        <h4>150+</h4>
+                        <p>Destinations Covered</p>
+                    </div>
+                    <div class="stat">
+                        <h4>99%</h4>
+                        <p>Satisfaction Rate</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            CONTACT SECTION
+            Using <section> to group contact information and contact form
+            Contains a form for user interaction - important for conversions
+        -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Get In Touch</h2>
+                <p class="section-subtitle">Have questions? We'd love to hear from you. Reach out today!</p>
+
+                <!-- Currency Converter Widget -->
+                <div class="currency-converter">
+                    <h3>💱 Quick Currency Converter</h3>
+                    <div class="converter-inputs">
+                        <input type="number" id="currencyAmount" placeholder="Amount" value="1000" min="0">
+                        <select id="fromCurrency">
+                            <option value="USD" selected>USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="JPY">JPY (¥)</option>
+                            <option value="AUD">AUD (A$)</option>
+                            <option value="CAD">CAD (C$)</option>
+                        </select>
+                        <span class="converter-arrow">→</span>
+                        <select id="toCurrency">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR" selected>EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="JPY">JPY (¥)</option>
+                            <option value="AUD">AUD (A$)</option>
+                            <option value="CAD">CAD (C$)</option>
+                        </select>
+                    </div>
+                    <div class="converter-result" id="conversionResult">
+                        <strong>Result:</strong> <span id="convertedAmount">Loading...</span>
+                    </div>
+                </div>
+
+                <div class="contact-wrapper">
+                    <!-- 
+                        FORM: Semantic form element for collecting user input
+                        Using proper form semantics improves accessibility and is essential for screen readers
+                        Form fields are properly labeled for best practices
+                    -->
+                    <form class="contact-form" id="contactForm" method="POST" action="/submit-contact">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="destination">Preferred Destination</label>
+                            <input type="text" id="destination" name="destination" placeholder="Where do you want to go?">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" placeholder="Tell us about your travel dreams..." rows="5" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+
+                    <!-- Contact information displayed alongside form -->
+                    <div class="contact-info">
+                        <h3>Contact Information</h3>
+                        <address>
+                            <!-- ADDRESS tag for contact details - semantic markup for location/contact info -->
+                            <p><strong>zee trivago Travel Agency</strong></p>
+                            <p>123 Adventure Street<br>
+                            Travel City, TC 12345<br>
+                            United States</p>
+                            <p><strong>Phone:</strong> <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+                            <p><strong>Email:</strong> <a href="mailto:hello@wanderlust.com">hello@wanderlust.com</a></p>
+                            <p><strong>Hours:</strong> Monday - Friday, 9am - 6pm EST</p>
+                        </address>
+                    </div>
+                </div>
+
+                <!-- Google Map Location -->
+                <div class="map-card">
+                    <div class="map-details">
+                        <h3>Visit Our Office</h3>
+                        <p>zee trivago Travel Agency</p>
+                        <p>123 Adventure Street, Travel City, TC 12345</p>
+                        <p><strong>Hours:</strong> Mon-Fri, 9am - 6pm EST</p>
+                        <p><strong>Phone:</strong> +1 (234) 567-890</p>
+                    </div>
+                    <div 
+                        id="map" 
+                        class="map" 
+                        data-api-key="YOUR_GOOGLE_MAPS_API_KEY" 
+                        data-lat="40.7128" 
+                        data-lng="-74.0060" 
+                        data-zoom="12"
+                        aria-label="Office location on Google Maps"
+                    ></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            NEWSLETTER SUBSCRIPTION SECTION
+            Build email list for marketing and customer engagement
+        -->
+        <section id="newsletter" class="newsletter">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2>Subscribe to Our Newsletter</h2>
+                    <p>Get exclusive travel deals, destination tips, and inspiration delivered to your inbox!</p>
+                    
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input 
+                            type="email" 
+                            id="newsletterEmail" 
+                            placeholder="Enter your email address" 
+                            required
+                        >
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                    
+                    <p class="newsletter-privacy">We respect your privacy. Unsubscribe anytime.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            WEATHER SEARCH SECTION: Real-time weather lookup
+            Allows visitors to search weather for any location worldwide
+            Uses OpenWeatherMap API for current conditions and 5-day forecast
+        -->
+        <section id="weather" class="weather-section">
+            <div class="container">
+                <h2>Check Weather Anywhere</h2>
+                <p class="section-subtitle">Search for any location worldwide and view live weather conditions</p>
+                
+                <div class="weather-search-container">
+                    <div class="search-input-group">
+                        <input 
+                            type="text" 
+                            id="weatherLocationInput" 
+                            class="weather-input" 
+                            placeholder="Enter city name (e.g., Paris, Tokyo, New York)"
+                            autocomplete="off"
+                        >
+                        <button id="weatherSearchBtn" class="btn btn-primary">Search Weather</button>
+                    </div>
+                    
+                    <div id="weatherResults" class="weather-results">
+                        <!-- Current weather and forecast displayed here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            FOOTER IMAGE SECTION: Bottom banner image for visual closure
+            Creates a memorable ending and reinforces travel theme
+        -->
+        <section id="footer-image" class="footer-image">
+            <img src="assets/images/travelp2.jpg" alt="View from airplane window over mountains - adventure awaits" loading="lazy">
+        </section>
+
+    </main>
+
+    <!-- 
+        FOOTER: Semantic container for page footer content
+        Using <footer> explicitly marks this as footer content
+        Improves navigation for assistive technologies and search engine understanding
+        Contains copyright info and secondary links
+    -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>zee trivago</h4>
+                    <p>Making world travel accessible and unforgettable since 2010.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#destinations">Destinations</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 zee trivago Travel Agency. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 
+        CHATBOT WIDGET: AI-powered assistant for user support
+        Floating chatbot that provides travel information and customer support
+        Users can click the button to open/close the chat window
+    -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <!-- Floating chatbot button -->
+        <button class="chatbot-button" id="chatbotButton" aria-label="Open chat with travel assistant">
+            <span class="chat-icon">💬</span>
+        </button>
+
+        <!-- Chat window -->
+        <div class="chatbot-window" id="chatbotWindow">
+            <!-- Chat header -->
+            <div class="chatbot-header">
+                <h3>zee trivago Assistant</h3>
+                <button class="close-chat" id="closeChatButton" aria-label="Close chat">✕</button>
+            </div>
+
+            <!-- Messages container -->
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="bot-message">
+                    <p>👋 Hello! I'm the zee trivago travel assistant. How can I help you today?</p>
+                </div>
+            </div>
+
+            <!-- Input area -->
+            <div class="chatbot-input-area">
+                <input 
+                    type="text" 
+                    id="chatbotInput" 
+                    class="chatbot-input" 
+                    placeholder="Ask about destinations, packages, bookings..."
+                    autocomplete="off"
+                >
+                <button class="send-button" id="sendButton" aria-label="Send message">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Main JavaScript file -->
+    <script src="js/main.js" defer></script>
+</body>
+</html>

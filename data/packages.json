@@ -1,0 +1,84 @@
+{
+  "packages": [
+    {
+      "id": 1,
+      "name": "Romantic Europe",
+      "description": "Perfect for couples seeking romance in Europe's most beautiful cities.",
+      "destinations": ["Paris", "Barcelona", "Venice"],
+      "duration": "12 days",
+      "price": 2999,
+      "image": "assets/images/packages/romantic-europe.jpg",
+      "includes": [
+        "5-star hotel accommodations",
+        "Daily breakfast",
+        "Guided city tours",
+        "Airport transfers"
+      ],
+      "popular": true
+    },
+    {
+      "id": 2,
+      "name": "Asia Adventure",
+      "description": "Explore the wonders of Asia with temples, cuisine, and vibrant cultures.",
+      "destinations": ["Tokyo", "Bangkok", "Bali"],
+      "duration": "15 days",
+      "price": 3499,
+      "image": "assets/images/packages/asia-adventure.jpg",
+      "includes": [
+        "4-star hotel accommodations",
+        "Breakfast and dinner",
+        "Adventure activities",
+        "Flights between cities"
+      ],
+      "popular": true
+    },
+    {
+      "id": 3,
+      "name": "Beach Escape",
+      "description": "Relax and unwind at the world's most beautiful beach destinations.",
+      "destinations": ["Bali", "Maldives", "Fiji"],
+      "duration": "10 days",
+      "price": 2299,
+      "image": "assets/images/packages/beach-escape.jpg",
+      "includes": [
+        "Beachfront resorts",
+        "All meals included",
+        "Water sports",
+        "Spa treatments"
+      ],
+      "popular": false
+    },
+    {
+      "id": 4,
+      "name": "City Hopper",
+      "description": "Visit multiple iconic cities in one unforgettable journey.",
+      "destinations": ["New York", "Miami", "Los Angeles"],
+      "duration": "10 days",
+      "price": 2199,
+      "image": "assets/images/packages/city-hopper.jpg",
+      "includes": [
+        "4-star hotels",
+        "Breakfast daily",
+        "City tours",
+        "Entertainment passes"
+      ],
+      "popular": true
+    },
+    {
+      "id": 5,
+      "name": "Luxury Middle East",
+      "description": "Experience opulence and wonder in the heart of the Middle East.",
+      "destinations": ["Dubai", "Abu Dhabi"],
+      "duration": "7 days",
+      "price": 2899,
+      "image": "assets/images/packages/luxury-middle-east.jpg",
+      "includes": [
+        "Luxury 5-star accommodations",
+        "Private chauffeur",
+        "Fine dining",
+        "Shopping vouchers"
+      ],
+      "popular": false
+    }
+  ]
+}
