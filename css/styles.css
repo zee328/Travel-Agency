@@ -153,7 +153,7 @@ a:hover {
 /* ========== 3. HEADER & NAVIGATION ========== */
 
 .header {
-  background-color: var(--dark-color);
+  background-color: #0066cc;
   color: white;
   padding: var(--spacing-md) 0;
   /* Sticky positioning keeps header visible while scrolling */
