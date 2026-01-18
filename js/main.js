@@ -20,6 +20,49 @@ if ('serviceWorker' in navigator) {
 // API base URL for backend endpoints (override via window.API_BASE or data-api-base on <body>)
 const API_BASE = window.API_BASE || document.body.dataset.apiBase || 'http://localhost:4000/api';
 
+// Supported currencies and exchange rates (relative to USD)
+const SUPPORTED_CURRENCIES = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD'];
+const EXCHANGE_RATES = {
+    USD: 1.0,
+    EUR: 0.92,
+    GBP: 0.79,
+    JPY: 149.5,
+    AUD: 1.52,
+    CAD: 1.36
+};
+
+function convertCurrencyAmount(amount, fromCurrency = 'USD', toCurrency = 'USD') {
+    const from = fromCurrency.toUpperCase();
+    const to = toCurrency.toUpperCase();
+    const fromRate = EXCHANGE_RATES[from];
+    const toRate = EXCHANGE_RATES[to];
+    if (!fromRate || !toRate) return amount;
+    const amountInUSD = amount / fromRate;
+    return amountInUSD * toRate;
+}
+
+function convertFromUSD(amount, currency) {
+    return convertCurrencyAmount(amount, 'USD', currency);
+}
+
+function formatCurrencyAmount(amount, currency) {
+    const code = currency?.toUpperCase() || 'USD';
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: code,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(amount);
+}
+
+const THEME_OPTIONS = [
+    { id: 'light', label: 'Light' },
+    { id: 'dark', label: 'Dark' },
+    { id: 'ocean', label: 'Ocean' },
+    { id: 'forest', label: 'Forest' },
+    { id: 'desert', label: 'Desert' }
+];
+
 // In-memory state for dynamic rendering
 let testimonialData = [];
 
@@ -261,45 +304,41 @@ function initializeNewsletterForm() {
     console.log('✓ Newsletter form initialized');
 }
 
-// ========== DARK MODE TOGGLE ==========
+// ========== THEME PICKER ==========
 
 /**
- * Initialize dark mode toggle functionality
- * Saves user preference in localStorage
+ * Initialize multi-theme picker
+ * Applies selected theme to <body data-theme> and persists preference
  */
 function initializeThemeToggle() {
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = themeToggle ? themeToggle.querySelector('.theme-icon') : null;
-    
-    if (!themeToggle) return;
-    
-    // Check for saved theme preference or default to light mode
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    document.body.setAttribute('data-theme', currentTheme);
-    updateThemeIcon(currentTheme, themeIcon);
-    
-    // Toggle theme on button click
-    themeToggle.addEventListener('click', function() {
-        let theme = document.body.getAttribute('data-theme');
-        let newTheme = theme === 'light' ? 'dark' : 'light';
-        
-        document.body.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme, themeIcon);
-        
-        console.log('✓ Theme switched to:', newTheme);
+    const optionsContainer = document.getElementById('themeOptions');
+    if (!optionsContainer) return;
+
+    const savedTheme = localStorage.getItem('theme');
+    const initialTheme = THEME_OPTIONS.some(t => t.id === savedTheme) ? savedTheme : 'light';
+    applyTheme(initialTheme);
+
+    optionsContainer.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-theme]');
+        if (!button) return;
+        applyTheme(button.dataset.theme);
     });
-    
-    /**
-     * Update theme icon based on current theme
-     */
-    function updateThemeIcon(theme, iconElement) {
-        if (iconElement) {
-            iconElement.textContent = theme === 'light' ? '🌙' : '☀️';
-        }
+
+    function applyTheme(themeName) {
+        const theme = THEME_OPTIONS.some(t => t.id === themeName) ? themeName : 'light';
+        document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        updateActiveChip(theme);
+        console.log('✓ Theme switched to:', theme);
     }
-    
-    console.log('✓ Theme toggle initialized');
+
+    function updateActiveChip(activeTheme) {
+        optionsContainer.querySelectorAll('[data-theme]').forEach(btn => {
+            const isActive = btn.dataset.theme === activeTheme;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+    }
 }
 
 // ========== BACK TO TOP BUTTON ==========
@@ -348,16 +387,6 @@ function initializeCurrencyConverter() {
     
     if (!amountInput || !fromCurrency || !toCurrency || !convertedAmount) return;
     
-    // Exchange rates (simplified - in production, use a real API)
-    const exchangeRates = {
-        USD: 1.0,
-        EUR: 0.92,
-        GBP: 0.79,
-        JPY: 149.50,
-        AUD: 1.52,
-        CAD: 1.36
-    };
-    
     /**
      * Convert currency and display result
      */
@@ -365,19 +394,9 @@ function initializeCurrencyConverter() {
         const amount = parseFloat(amountInput.value) || 0;
         const from = fromCurrency.value;
         const to = toCurrency.value;
-        
-        // Convert to USD first, then to target currency
-        const amountInUSD = amount / exchangeRates[from];
-        const result = amountInUSD * exchangeRates[to];
-        
-        // Format the result
-        const formatted = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: to,
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }).format(result);
-        
+
+        const result = convertCurrencyAmount(amount, from, to);
+        const formatted = formatCurrencyAmount(result, to);
         convertedAmount.textContent = formatted;
     }
     
@@ -1101,9 +1120,16 @@ function openPackageModal(pkg) {
             <div class="modal-section">
                 <div class="payment-section">
                     <h3 style="color: white;">💳 Book This Package</h3>
-                    <div class="payment-price">$${pkg.price.toLocaleString()}</div>
+                    <div class="payment-price" id="paymentPriceDisplay"></div>
+                    <div class="currency-select">
+                        <label for="paymentCurrency">Pay in your currency</label>
+                        <select id="paymentCurrency">
+                            ${SUPPORTED_CURRENCIES.map(code => `<option value="${code}">${code}</option>`).join('')}
+                        </select>
+                    </div>
+                    <p class="currency-note" id="paymentCurrencyNote"></p>
                     <p>per person (${pkg.duration})</p>
-                    <button class="btn-book-now" onclick="initiatePayment(${pkg.id}, ${pkg.price})">
+                    <button class="btn-book-now" onclick="initiatePayment(event, ${pkg.id}, ${pkg.price})">
                         Book Now - Secure Payment
                     </button>
                     <p class="secure-payment">🔒 Secure payment powered by Stripe</p>
@@ -1111,6 +1137,37 @@ function openPackageModal(pkg) {
             </div>
         </div>
     `;
+    
+    // Sync displayed price with selected currency
+    const currencySelect = document.getElementById('paymentCurrency');
+    const priceDisplay = document.getElementById('paymentPriceDisplay');
+    const currencyNote = document.getElementById('paymentCurrencyNote');
+    const basePriceUSD = pkg.price;
+    const preferredCurrency = localStorage.getItem('preferredCurrency');
+
+    function updatePaymentPrice() {
+        const currency = (currencySelect?.value || 'USD').toUpperCase();
+        const converted = convertFromUSD(basePriceUSD, currency);
+        if (priceDisplay) {
+            priceDisplay.textContent = formatCurrencyAmount(converted, currency);
+        }
+        if (currencyNote) {
+            currencyNote.textContent = currency === 'USD'
+                ? 'Charged in USD at checkout.'
+                : `Approx. conversion from USD (${formatCurrencyAmount(basePriceUSD, 'USD')}). Stripe shows the exact charge before you pay.`;
+        }
+        localStorage.setItem('preferredCurrency', currency);
+    }
+
+    if (currencySelect) {
+        if (preferredCurrency && SUPPORTED_CURRENCIES.includes(preferredCurrency)) {
+            currencySelect.value = preferredCurrency;
+        }
+        updatePaymentPrice();
+        currencySelect.addEventListener('change', updatePaymentPrice);
+    } else if (priceDisplay) {
+        priceDisplay.textContent = formatCurrencyAmount(basePriceUSD, 'USD');
+    }
     
     // Show modal
     modal.classList.add('active');
@@ -1133,15 +1190,20 @@ document.addEventListener('click', (e) => {
 /**
  * Initiate payment process with Stripe
  */
-async function initiatePayment(packageId, amount) {
+async function initiatePayment(event, packageId, amountUSD) {
     try {
         // Show loading state
-        const button = event.target;
-        button.disabled = true;
-        button.textContent = 'Processing...';
+        const button = event?.target;
+        if (button) {
+            button.disabled = true;
+            button.textContent = 'Processing...';
+        }
         
         // Get package details from the current modal
         const packageName = document.querySelector('.modal-title-overlay h2').textContent;
+        const currencySelect = document.getElementById('paymentCurrency');
+        const currency = (currencySelect?.value || 'USD').toUpperCase();
+        const convertedAmount = convertFromUSD(amountUSD, currency);
         
         // Create checkout session
         const response = await fetch(`${API_BASE}/payment/create-checkout-session`, {
@@ -1152,8 +1214,9 @@ async function initiatePayment(packageId, amount) {
             body: JSON.stringify({
                 packageId: packageId,
                 packageName: packageName,
-                amount: amount,
-                quantity: 1
+                amount: Number(convertedAmount.toFixed(2)),
+                quantity: 1,
+                currency: currency
             }),
         });
         
@@ -1171,9 +1234,11 @@ async function initiatePayment(packageId, amount) {
         alert(`Payment Error: ${error.message}\n\nPlease ensure:\n1. Backend server is running\n2. STRIPE_SECRET_KEY is configured in backend/.env\n3. Contact support if issue persists`);
         
         // Reset button
-        const button = event.target;
-        button.disabled = false;
-        button.textContent = 'Book Now - Secure Payment';
+        const button = event?.target;
+        if (button) {
+            button.disabled = false;
+            button.textContent = 'Book Now - Secure Payment';
+        }
     }
 }
 

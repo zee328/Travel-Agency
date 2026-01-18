@@ -52,10 +52,17 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
             
-            <!-- Dark mode toggle -->
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-                <span class="theme-icon">🌙</span>
-            </button>
+            <!-- Theme palette -->
+            <div class="theme-switcher" id="themeSwitcher" aria-label="Choose a site theme">
+                <span class="theme-switcher-label">Themes</span>
+                <div class="theme-options" id="themeOptions">
+                    <button class="theme-chip" data-theme="light" aria-label="Light theme">☀️</button>
+                    <button class="theme-chip" data-theme="dark" aria-label="Dark theme">🌙</button>
+                    <button class="theme-chip" data-theme="ocean" aria-label="Ocean theme">🌊</button>
+                    <button class="theme-chip" data-theme="forest" aria-label="Forest theme">🌲</button>
+                    <button class="theme-chip" data-theme="desert" aria-label="Desert theme">🏜️</button>
+                </div>
+            </div>
         </nav>
     </header>
 

@@ -8,6 +8,10 @@ const stripe = process.env.STRIPE_SECRET_KEY
     ? new Stripe(process.env.STRIPE_SECRET_KEY) 
     : null;
 
+// Supported currencies (expand here if you add more on the frontend)
+const ALLOWED_CURRENCIES = ['usd', 'eur', 'gbp', 'jpy', 'aud', 'cad'];
+const ZERO_DECIMAL_CURRENCIES = ['jpy'];
+
 /**
  * POST /api/payment/create-checkout-session
  * Creates a Stripe checkout session for package booking
@@ -20,14 +24,28 @@ router.post('/create-checkout-session', async (req, res) => {
             });
         }
 
-        const { packageId, packageName, amount, quantity = 1 } = req.body;
+        const { packageId, packageName, amount, quantity = 1, currency = 'usd' } = req.body;
+
+        const normalizedCurrency = currency.toString().toLowerCase();
+        const numericAmount = Number(amount);
 
         // Validate required fields
-        if (!packageId || !packageName || !amount) {
+        if (!packageId || !packageName || !Number.isFinite(numericAmount)) {
             return res.status(400).json({ 
                 error: 'Missing required fields: packageId, packageName, amount' 
             });
         }
+
+        if (!ALLOWED_CURRENCIES.includes(normalizedCurrency)) {
+            return res.status(400).json({ error: 'Unsupported currency' });
+        }
+
+        if (numericAmount <= 0) {
+            return res.status(400).json({ error: 'Amount must be greater than 0' });
+        }
+
+        const multiplier = ZERO_DECIMAL_CURRENCIES.includes(normalizedCurrency) ? 1 : 100;
+        const amountInMinor = Math.round(numericAmount * multiplier);
 
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
@@ -35,12 +53,12 @@ router.post('/create-checkout-session', async (req, res) => {
             line_items: [
                 {
                     price_data: {
-                        currency: 'usd',
+                        currency: normalizedCurrency,
                         product_data: {
                             name: packageName,
                             description: `Travel package booking - Package ID: ${packageId}`,
                         },
-                        unit_amount: Math.round(amount * 100), // Stripe uses cents
+                        unit_amount: amountInMinor,
                     },
                     quantity: quantity,
                 },

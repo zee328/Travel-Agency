@@ -46,6 +46,20 @@
   --border-color: #ddd;
   --success-color: #28a745;
 
+  /* Themeable surfaces */
+  --bg-body: #ffffff;
+  --surface-color: #f9f9f9;
+  --card-bg: #ffffff;
+  --card-hover-bg: #ffffff;
+  --muted-bg: #f0f0f0;
+  --image-fallback-bg: #f0f0f0;
+  --chat-bg: #f9f9f9;
+  --header-bg: var(--primary-color);
+  --accent-hover: #e55a25;
+  --secondary-hover: #0099b6;
+  --hero-gradient-start: var(--primary-color);
+  --hero-gradient-end: var(--secondary-color);
+
   /* Typography: Readable font stack with fallbacks */
   --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --font-size-base: 16px;
@@ -90,6 +104,113 @@
   --max-width: 1200px;
 }
 
+/* ========== THEME PALETTES ========== */
+
+body[data-theme="light"] {
+  --primary-color: #0066cc;
+  --secondary-color: #00b4d8;
+  --accent-color: #ff6b35;
+  --text-color: #333333;
+  --text-light: #666666;
+  --border-color: #dddddd;
+  --bg-body: #ffffff;
+  --surface-color: #f9f9f9;
+  --card-bg: #ffffff;
+  --card-hover-bg: #ffffff;
+  --muted-bg: #f0f0f0;
+  --image-fallback-bg: #f0f0f0;
+  --chat-bg: #f9f9f9;
+  --header-bg: #0066cc;
+  --accent-hover: #e55a25;
+  --secondary-hover: #0099b6;
+  --hero-gradient-start: #0066cc;
+  --hero-gradient-end: #00b4d8;
+}
+
+body[data-theme="dark"] {
+  --primary-color: #5a7bff;
+  --secondary-color: #2dd4bf;
+  --accent-color: #f9a826;
+  --text-color: #e4e6eb;
+  --text-light: #b8bcca;
+  --border-color: #1f2937;
+  --bg-body: #0d1117;
+  --surface-color: #0f172a;
+  --card-bg: #0f172a;
+  --card-hover-bg: #111c31;
+  --muted-bg: #111827;
+  --image-fallback-bg: #0b1221;
+  --chat-bg: #0f172a;
+  --header-bg: #0b1221;
+  --accent-hover: #fbbf46;
+  --secondary-hover: #36e0c6;
+  --hero-gradient-start: #0b1221;
+  --hero-gradient-end: #1e3a8a;
+}
+
+body[data-theme="ocean"] {
+  --primary-color: #0077b6;
+  --secondary-color: #48cae4;
+  --accent-color: #ff9f1c;
+  --text-color: #0f1b2c;
+  --text-light: #3a526b;
+  --border-color: #bcd7ea;
+  --bg-body: #e6f4ff;
+  --surface-color: #eef7ff;
+  --card-bg: #ffffff;
+  --card-hover-bg: #f2f8ff;
+  --muted-bg: #d7ecff;
+  --image-fallback-bg: #cbe7ff;
+  --chat-bg: #f4f9ff;
+  --header-bg: #005f99;
+  --accent-hover: #e07f00;
+  --secondary-hover: #2aaccd;
+  --hero-gradient-start: #004b6b;
+  --hero-gradient-end: #23a6d5;
+}
+
+body[data-theme="forest"] {
+  --primary-color: #1b5e20;
+  --secondary-color: #66bb6a;
+  --accent-color: #d0a85c;
+  --text-color: #1c2a1f;
+  --text-light: #4d6453;
+  --border-color: #c9d9ca;
+  --bg-body: #f0f7f2;
+  --surface-color: #e6f2e8;
+  --card-bg: #ffffff;
+  --card-hover-bg: #f4fbf5;
+  --muted-bg: #dcebdc;
+  --image-fallback-bg: #d4e5d5;
+  --chat-bg: #f5fbf6;
+  --header-bg: #1f4429;
+  --accent-hover: #b68945;
+  --secondary-hover: #4da75a;
+  --hero-gradient-start: #1f4228;
+  --hero-gradient-end: #3da35d;
+}
+
+body[data-theme="desert"] {
+  --primary-color: #c1701a;
+  --secondary-color: #f2b05e;
+  --accent-color: #e85d04;
+  --text-color: #3f2a1b;
+  --text-light: #6f5138;
+  --border-color: #f1d3aa;
+  --bg-body: #fff8ed;
+  --surface-color: #fff3e0;
+  --card-bg: #ffffff;
+  --card-hover-bg: #fff0d9;
+  --muted-bg: #fde6c8;
+  --image-fallback-bg: #f8d9a0;
+  --chat-bg: #fff7ec;
+  --header-bg: #b2570b;
+  --accent-hover: #d9480f;
+  --secondary-hover: #e49b3d;
+  --hero-gradient-start: #b05d0b;
+  --hero-gradient-end: #f2b05e;
+}
+
 /* CSS Reset: Remove default browser margins and padding */
 * {
   margin: 0;
@@ -104,7 +225,7 @@ body {
   font-size: var(--font-size-base);
   line-height: var(--line-height);
   color: var(--text-color);
-  background-color: #fff;
+  background-color: var(--bg-body);
   /* Smooth scrolling for better UX */
   scroll-behavior: smooth;
 }
@@ -163,7 +284,7 @@ a:hover {
 /* ========== 3. HEADER & NAVIGATION ========== */
 
 .header {
-  background-color: #0066cc;
+  background-color: var(--header-bg);
   color: white;
   padding: var(--spacing-md) 0;
   /* Sticky positioning keeps header visible while scrolling */
@@ -295,7 +416,7 @@ a:hover {
   width: 100%;
   height: 500px;
   overflow: hidden;
-  background-color: #f0f0f0;
+  background-color: var(--image-fallback-bg);
 }
 
 .hero-image img {
@@ -313,8 +434,8 @@ a:hover {
 .hero {
   background: linear-gradient(
     135deg,
-    var(--primary-color),
-    var(--secondary-color)
+    var(--hero-gradient-start),
+    var(--hero-gradient-end)
   );
   color: white;
   padding: var(--spacing-xl) var(--spacing-md);
@@ -344,7 +465,7 @@ a:hover {
   width: 100%;
   height: 450px;
   overflow: hidden;
-  background-color: #f0f0f0;
+  background-color: var(--image-fallback-bg);
 }
 
 .footer-image img {
@@ -387,7 +508,7 @@ a:hover {
   Transform creates subtle 3D effect
 */
 .btn-primary:hover {
-  background-color: #e55a25;
+  background-color: var(--accent-hover);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
@@ -427,7 +548,7 @@ a:hover {
 }
 
 .btn-secondary:hover {
-  background-color: #0099b6;
+  background-color: var(--secondary-hover);
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
   color: white;
@@ -499,7 +620,7 @@ section {
   Overflow hidden ensures image respects radius
 */
 .destination-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -522,7 +643,7 @@ section {
   height: 200px;
   object-fit: cover;
   display: block;
-  background-color: #ddd;
+  background-color: var(--image-fallback-bg);
 }
 
 .destination-card h3 {
@@ -645,7 +766,7 @@ section {
 .stat {
   text-align: center;
   padding: var(--spacing-lg);
-  background: white;
+  background: var(--card-bg);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
 }
@@ -665,7 +786,7 @@ section {
 /* ========== 10. CONTACT SECTION ========== */
 
 .contact {
-  background-color: white;
+  background-color: var(--surface-color);
 }
 
 /* 
@@ -1013,7 +1134,7 @@ address a:hover {
   right: 0;
   width: 400px;
   height: 600px;
-  background: white;
+  background: var(--card-bg);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   display: flex;
@@ -1085,7 +1206,7 @@ address a:hover {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  background-color: #f9f9f9;
+  background-color: var(--chat-bg);
 }
 
 /* 
@@ -1352,8 +1473,8 @@ address a:hover {
 }
 
 .newsletter-form .btn:hover {
-  background-color: #ff5722;
-  border-color: #ff5722;
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
   transform: translateY(-2px);
 }
 
@@ -1365,21 +1486,21 @@ address a:hover {
 /* ========== DARK MODE STYLES ========== */
 
 body[data-theme="dark"] {
-  background-color: #1a1a1a;
-  color: #e0e0e0;
+  background-color: var(--bg-body);
+  color: var(--text-color);
 }
 
 body[data-theme="dark"] .header {
-  background-color: #2d2d2d;
-  border-bottom-color: #404040;
+  background-color: var(--header-bg);
+  border-bottom-color: var(--border-color);
 }
 
 body[data-theme="dark"] .navbar {
-  background-color: #2d2d2d;
+  background-color: var(--header-bg);
 }
 
 body[data-theme="dark"] .nav-links a {
-  color: #e0e0e0;
+  color: var(--text-color);
 }
 
 body[data-theme="dark"] .nav-links a:hover {
@@ -1387,7 +1508,11 @@ body[data-theme="dark"] .nav-links a:hover {
 }
 
 body[data-theme="dark"] .hero {
-  background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6b 100%);
+  background: linear-gradient(
+    135deg,
+    var(--hero-gradient-start),
+    var(--hero-gradient-end)
+  );
   color: white;
 }
 
@@ -1395,40 +1520,44 @@ body[data-theme="dark"] .destinations,
 body[data-theme="dark"] .services,
 body[data-theme="dark"] .about,
 body[data-theme="dark"] .contact {
-  background-color: #242424;
-  color: #e0e0e0;
+  background-color: var(--surface-color);
+  color: var(--text-color);
 }
 
 body[data-theme="dark"] .destination-card,
 body[data-theme="dark"] .service-item,
 body[data-theme="dark"] .testimonial-card {
-  background-color: #2d2d2d;
-  border-color: #404040;
-  color: #e0e0e0;
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
 }
 
 body[data-theme="dark"] .destination-card:hover,
 body[data-theme="dark"] .service-item:hover,
 body[data-theme="dark"] .testimonial-card:hover {
-  background-color: #353535;
+  background-color: var(--card-hover-bg);
 }
 
 body[data-theme="dark"] .search-input,
 body[data-theme="dark"] .filter-select,
 body[data-theme="dark"] input,
 body[data-theme="dark"] textarea {
-  background-color: #2d2d2d;
-  border-color: #404040;
-  color: #e0e0e0;
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
 }
 
 body[data-theme="dark"] .footer {
-  background-color: #1a1a1a;
-  border-top-color: #404040;
+  background-color: var(--bg-body);
+  border-top-color: var(--border-color);
 }
 
 body[data-theme="dark"] .testimonials {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  background: linear-gradient(
+    135deg,
+    var(--bg-body) 0%,
+    var(--surface-color) 100%
+  );
 }
 
 .theme-toggle {
@@ -1446,6 +1575,52 @@ body[data-theme="dark"] .testimonials {
   background-color: var(--secondary-color);
   border-color: var(--secondary-color);
   transform: rotate(20deg);
+}
+
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-switcher-label {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.theme-options {
+  display: flex;
+  gap: 6px;
+}
+
+.theme-chip {
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  color: var(--text-color);
+  border-radius: 999px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.theme-chip:hover {
+  transform: translateY(-2px);
+  border-color: var(--secondary-color);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-chip.active {
+  background: var(--secondary-color);
+  color: #fff;
+  border-color: var(--secondary-color);
 }
 
 /* ========== BACK TO TOP BUTTON ========== */
@@ -1515,7 +1690,7 @@ body[data-theme="dark"] .testimonials {
   border-radius: var(--radius-md);
   font-family: var(--font-family);
   font-size: 1rem;
-  background-color: white;
+  background-color: var(--card-bg);
   transition: border-color var(--transition-fast);
 }
 
@@ -1544,13 +1719,13 @@ body[data-theme="dark"] .testimonials {
 
 .converter-result {
   padding: var(--spacing-md);
-  background-color: white;
+  background-color: var(--card-bg);
   border-radius: var(--radius-md);
   border-left: 4px solid var(--secondary-color);
 }
 
 .converter-result strong {
-  color: var(--dark-color);
+  color: var(--text-color);
   margin-right: var(--spacing-sm);
 }
 
@@ -1562,20 +1737,24 @@ body[data-theme="dark"] .testimonials {
 
 /* Dark mode adjustments for currency converter */
 body[data-theme="dark"] .currency-converter {
-  background: linear-gradient(135deg, #2d2d2d 0%, #353535 100%);
+  background: linear-gradient(
+    135deg,
+    var(--card-bg) 0%,
+    var(--card-hover-bg) 100%
+  );
 }
 
 body[data-theme="dark"] .currency-converter h3 {
-  color: #e0e0e0;
+  color: var(--text-color);
 }
 
 body[data-theme="dark"] .converter-result {
-  background-color: #2d2d2d;
+  background-color: var(--card-bg);
   border-left-color: var(--secondary-color);
 }
 
 body[data-theme="dark"] .converter-result strong {
-  color: #e0e0e0;
+  color: var(--text-color);
 }
 
 /* ========== MAP CARD ========== */
@@ -1585,7 +1764,7 @@ body[data-theme="dark"] .converter-result strong {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--spacing-lg);
-  background: #fff;
+  background: var(--card-bg);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   overflow: hidden;
@@ -1686,7 +1865,7 @@ body[data-theme="dark"] .converter-result strong {
   padding: var(--padding-md);
   border: 2px solid rgba(10, 37, 64, 0.2);
   border-radius: var(--border-radius);
-  background: white;
+  background: var(--card-bg);
   color: #0a2540;
   font-size: 1rem;
   transition: all var(--transition);
@@ -1699,7 +1878,7 @@ body[data-theme="dark"] .converter-result strong {
 .weather-input:focus {
   outline: none;
   border-color: #0a2540;
-  background: white;
+  background: var(--card-bg);
   box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.15);
 }
 
@@ -1710,7 +1889,7 @@ body[data-theme="dark"] .converter-result strong {
 }
 
 .weather-card {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid rgba(10, 37, 64, 0.08);
   border-radius: var(--border-radius);
   padding: var(--padding-lg);
@@ -1771,7 +1950,7 @@ body[data-theme="dark"] .converter-result strong {
 }
 
 .forecast-item {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid rgba(10, 37, 64, 0.08);
   padding: var(--padding-md);
   border-radius: calc(var(--border-radius) / 2);
@@ -1826,18 +2005,18 @@ body[data-theme="dark"] .converter-result strong {
 
 /* Dark mode adjustments */
 body[data-theme="dark"] .weather-section {
-  color: #e0e6ed;
+  color: var(--text-color);
 }
 body[data-theme="dark"] .weather-card,
 body[data-theme="dark"] .forecast-item {
-  background: #1f2937;
-  border-color: rgba(255, 255, 255, 0.1);
+  background: var(--card-bg);
+  border-color: var(--border-color);
   box-shadow: none;
 }
 body[data-theme="dark"] .weather-input {
-  background: #111827;
-  color: #e0e6ed;
-  border-color: rgba(255, 255, 255, 0.1);
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
 }
 
 /* Weather section - mobile responsive */
@@ -1898,7 +2077,7 @@ body[data-theme="dark"] .weather-input {
 }
 
 .package-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -2053,7 +2232,7 @@ body[data-theme="dark"] .weather-input {
 
 .modal-content {
   position: relative;
-  background: white;
+  background: var(--card-bg);
   margin: 40px auto;
   padding: 0;
   max-width: 900px;
@@ -2076,7 +2255,7 @@ body[data-theme="dark"] .weather-input {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: var(--card-bg);
   border-radius: 50%;
   box-shadow: var(--shadow-sm);
   transition: all var(--transition);
@@ -2205,7 +2384,7 @@ body[data-theme="dark"] .weather-input {
 }
 
 .btn-book-now {
-  background: white;
+  background: var(--card-bg);
   color: var(--primary-color);
   border: none;
   padding: var(--padding-md) var(--padding-xl);
@@ -2254,28 +2433,28 @@ body[data-theme="dark"] .weather-input {
 
 /* Dark mode support for packages */
 body[data-theme="dark"] .package-card {
-  background: #2a2a2a;
+  background: var(--card-bg);
 }
 
 body[data-theme="dark"] .package-title {
-  color: white;
+  color: var(--text-color);
 }
 
 body[data-theme="dark"] .modal-content {
-  background: #1a1a1a;
+  background: var(--card-bg);
 }
 
 body[data-theme="dark"] .modal-body {
-  color: #e0e0e0;
+  color: var(--text-color);
 }
 
 body[data-theme="dark"] .modal-close {
-  background: #2a2a2a;
-  color: white;
+  background: var(--card-bg);
+  color: var(--text-color);
 }
 
 body[data-theme="dark"] .facility-item,
 body[data-theme="dark"] .includes-list li,
 body[data-theme="dark"] .itinerary-day {
-  background: #2a2a2a;
+  background: var(--card-bg);
 }
