@@ -798,6 +798,8 @@ function initializeWeatherSearch() {
      * Shows current conditions and 5-day forecast
      */
     function displayWeatherResults(current, forecast) {
+        // Apply themed background based on current condition
+        setWeatherTheme(current.weather[0].main);
         const weatherIcon = getWeatherIcon(current.weather[0].main);
         const temp = Math.round(current.main.temp);
         const feelsLike = Math.round(current.main.feels_like);
@@ -901,6 +903,30 @@ function initializeWeatherSearch() {
         };
         
         return icons[condition] || '🌤️';
+    }
+    
+    /**
+     * Set weather section theme class based on condition
+     */
+    function setWeatherTheme(condition) {
+        const section = document.getElementById('weather');
+        if (!section) return;
+        const themes = ['theme-clear', 'theme-clouds', 'theme-rain', 'theme-snow'];
+        themes.forEach(t => section.classList.remove(t));
+        
+        const map = {
+            'Clear': 'theme-clear',
+            'Clouds': 'theme-clouds',
+            'Rain': 'theme-rain',
+            'Drizzle': 'theme-rain',
+            'Thunderstorm': 'theme-rain',
+            'Snow': 'theme-snow',
+            'Mist': 'theme-clouds',
+            'Haze': 'theme-clouds',
+            'Fog': 'theme-clouds'
+        };
+        
+        section.classList.add(map[condition] || 'theme-clear');
     }
     
     console.log('✓ Weather search initialized');

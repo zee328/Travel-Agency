@@ -8,7 +8,7 @@
       "duration": "12 days / 11 nights",
       "price": 2999,
       "currency": "USD",
-      "image": "assets/images/packages/romantic-europe.jpg",
+      "image": "https://source.unsplash.com/1600x900/?paris,romance",
       "facilities": [
         "5-star luxury hotels",
         "Private airport transfers",
@@ -57,7 +57,7 @@
       "duration": "15 days / 14 nights",
       "price": 3499,
       "currency": "USD",
-      "image": "assets/images/packages/asia-adventure.jpg",
+      "image": "https://source.unsplash.com/1600x900/?tokyo,city",
       "facilities": [
         "4-star hotels",
         "Airport shuttle service",
@@ -101,7 +101,7 @@
       "duration": "10 days / 9 nights",
       "price": 2299,
       "currency": "USD",
-      "image": "assets/images/packages/beach-escape.jpg",
+      "image": "https://source.unsplash.com/1600x900/?maldives,beach",
       "facilities": [
         "Beachfront luxury resorts",
         "Private beach access",
@@ -145,7 +145,7 @@
       "duration": "10 days / 9 nights",
       "price": 2199,
       "currency": "USD",
-      "image": "assets/images/packages/city-hopper.jpg",
+      "image": "https://source.unsplash.com/1600x900/?new%20york,skyline",
       "facilities": [
         "4-star city hotels",
         "Central locations",
@@ -188,7 +188,7 @@
       "duration": "7 days / 6 nights",
       "price": 2899,
       "currency": "USD",
-      "image": "assets/images/packages/luxury-middle-east.jpg",
+      "image": "https://source.unsplash.com/1600x900/?dubai,skyline",
       "facilities": [
         "5-star luxury hotels",
         "Private butler service",
