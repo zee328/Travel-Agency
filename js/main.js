@@ -562,6 +562,13 @@ function initializeCurrencyConverter() {
     const toCurrency = document.getElementById('toCurrency');
     const convertedAmount = document.getElementById('convertedAmount');
     
+    console.log('Currency converter elements:', {
+        amountInput: !!amountInput,
+        fromCurrency: !!fromCurrency,
+        toCurrency: !!toCurrency,
+        convertedAmount: !!convertedAmount
+    });
+    
     if (!amountInput || !fromCurrency || !toCurrency || !convertedAmount) {
         console.warn('Currency converter elements not found');
         return;
@@ -576,8 +583,12 @@ function initializeCurrencyConverter() {
             const from = fromCurrency.value;
             const to = toCurrency.value;
 
+            console.log('Converting:', { amount, from, to });
+
             const result = convertCurrencyAmount(amount, from, to);
             const formatted = formatCurrencyAmount(result, to);
+            
+            console.log('Conversion result:', formatted);
             convertedAmount.textContent = formatted;
         } catch (error) {
             console.error('Currency conversion error:', error);
@@ -590,8 +601,10 @@ function initializeCurrencyConverter() {
     fromCurrency.addEventListener('change', convertCurrency);
     toCurrency.addEventListener('change', convertCurrency);
     
-    // Initial conversion
-    convertCurrency();
+    // Initial conversion with a small delay to ensure DOM is ready
+    setTimeout(() => {
+        convertCurrency();
+    }, 100);
     
     console.log('✓ Currency converter initialized');
 }
