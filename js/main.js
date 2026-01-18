@@ -77,12 +77,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeContactForm();
     initializeChatbot();
     initializeNewsletterForm();
-    initializeThemeToggle();
     initializeBackToTop();
     initializeCurrencyConverter();
     initializeWeatherSearch();
-    initializePackages();
-    fetchTestimonials();
 });
 
 // ========== MOBILE NAVIGATION TOGGLE ==========
