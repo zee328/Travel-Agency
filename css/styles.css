@@ -1955,6 +1955,40 @@ body[data-theme="dark"] .converter-result strong {
   line-height: 1.6;
 }
 
+.hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.hours-list > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.hours-list .day {
+  font-weight: 500;
+  color: var(--text-color);
+  min-width: 140px;
+}
+
+.hours-list .time {
+  color: var(--text-light);
+  text-align: right;
+}
+
+.hours-list .closed {
+  opacity: 0.6;
+}
+
+.hours-list .closed .time {
+  color: #ff6b6b;
+  font-weight: 500;
+}
+
 .weekend {
   font-size: 0.85rem;
   opacity: 0.7;

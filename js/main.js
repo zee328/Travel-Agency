@@ -166,13 +166,21 @@ function initializeContactForm() {
     const phoneInput = contactForm.querySelector('input[name="phone"]');
     const messageInput = contactForm.querySelector('textarea[name="message"]');
     
-    // Add real-time validation listeners
-    if (nameInput) nameInput.addEventListener('blur', () => validateField('name'));
-    if (emailInput) emailInput.addEventListener('blur', () => validateField('email'));
-    if (phoneInput) phoneInput.addEventListener('blur', () => validateField('phone'));
-    if (messageInput) messageInput.addEventListener('input', () => validateField('message'));
+    // Add blur listeners - only validate when user leaves field (after they've had a chance to type)
+    if (nameInput) {
+        nameInput.addEventListener('blur', () => validateField('name', false, true));
+        nameInput.addEventListener('focus', () => clearFieldError('name'));
+    }
+    if (emailInput) {
+        emailInput.addEventListener('blur', () => validateField('email', false, true));
+        emailInput.addEventListener('focus', () => clearFieldError('email'));
+    }
+    if (phoneInput) {
+        phoneInput.addEventListener('blur', () => validateField('phone', true, true));
+        phoneInput.addEventListener('focus', () => clearFieldError('phone'));
+    }
     
-    // Character count feedback for message
+    // For message: show character count on input but only validate on blur
     if (messageInput) {
         messageInput.addEventListener('input', () => {
             const count = messageInput.value.trim().length;
@@ -184,6 +192,8 @@ function initializeContactForm() {
                 else hint.style.color = 'var(--text-light)';
             }
         });
+        messageInput.addEventListener('blur', () => validateField('message', false, true));
+        messageInput.addEventListener('focus', () => clearFieldError('message'));
     }
     
     // Listen for form submission
@@ -197,14 +207,14 @@ function initializeContactForm() {
         const message = messageInput ? messageInput.value.trim() : '';
         const destination = contactForm.querySelector('input[name="destination"]')?.value.trim() || '';
         
-        // Validate all fields before submission
-        const isNameValid = validateField('name');
-        const isEmailValid = validateField('email');
-        const isPhoneValid = validateField('phone', true); // phone is optional
-        const isMessageValid = validateField('message');
+        // Validate all fields on submit (show all errors at once)
+        const isNameValid = validateField('name', false, true);
+        const isEmailValid = validateField('email', false, true);
+        const isPhoneValid = validateField('phone', true, true); // phone is optional
+        const isMessageValid = validateField('message', false, true);
         
         if (!isNameValid || !isEmailValid || !isMessageValid) {
-            showErrorMessage('Please fix the errors above');
+            showErrorMessage('Please complete all required fields correctly');
             return;
         }
         
@@ -221,11 +231,20 @@ function initializeContactForm() {
     });
     
     /**
+     * Clear error message for a field
+     */
+    function clearFieldError(fieldName) {
+        const errorEl = document.getElementById(`${fieldName}Error`);
+        if (errorEl) errorEl.textContent = '';
+    }
+    
+    /**
      * Validate individual form field
      * @param {string} fieldName - The name of the field to validate
      * @param {boolean} isOptional - Whether the field is optional
+     * @param {boolean} showErrors - Whether to display error messages
      */
-    function validateField(fieldName, isOptional = false) {
+    function validateField(fieldName, isOptional = false, showErrors = false) {
         const field = contactForm.querySelector(`input[name="${fieldName}"], textarea[name="${fieldName}"]`);
         if (!field) return true;
         
@@ -236,49 +255,53 @@ function initializeContactForm() {
         
         if (fieldName === 'name') {
             if (!value && !isOptional) {
-                error = 'Name is required';
+                error = 'This field needs correction - Name is required';
                 isValid = false;
             } else if (value.length < 2 && value.length > 0) {
-                error = 'Name must be at least 2 characters';
+                error = 'This field needs correction - Name must be at least 2 characters';
                 isValid = false;
             } else if (value.length > 100) {
-                error = 'Name is too long (max 100 characters)';
+                error = 'This field needs correction - Name is too long';
                 isValid = false;
             }
         } else if (fieldName === 'email') {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!value && !isOptional) {
-                error = 'Email is required';
+                error = 'This field needs correction - Email is required';
                 isValid = false;
             } else if (value && !emailRegex.test(value)) {
-                error = 'Please enter a valid email address';
+                error = 'This field needs correction - Invalid email format';
                 isValid = false;
             }
         } else if (fieldName === 'phone') {
             if (value && value.length < 10) {
-                error = 'Phone number must be at least 10 characters';
+                error = 'This field needs correction - Phone must be at least 10 characters';
                 isValid = false;
             }
         } else if (fieldName === 'message') {
             if (!value && !isOptional) {
-                error = 'Message is required';
+                error = 'This field needs correction - Message is required';
                 isValid = false;
             } else if (value.length < 10 && value.length > 0) {
-                error = 'Message must be at least 10 characters';
+                error = 'This field needs correction - Minimum 10 characters';
                 isValid = false;
             } else if (value.length > 2000) {
-                error = 'Message is too long (max 2000 characters)';
+                error = 'This field needs correction - Message is too long';
                 isValid = false;
             }
         }
         
-        // Update field visual state
-        if (errorEl) errorEl.textContent = error;
+        // Update field visual state and error message
+        if (showErrors && errorEl) errorEl.textContent = error;
         field.classList.remove('success', 'error');
-        if (isValid && value) {
-            field.classList.add('success');
-        } else if (!isValid) {
-            field.classList.add('error');
+        
+        // Only show success/error classes if we're showing errors
+        if (showErrors) {
+            if (isValid && value) {
+                field.classList.add('success');
+            } else if (!isValid) {
+                field.classList.add('error');
+            }
         }
         
         return isValid;
