@@ -40,6 +40,7 @@
   --accent-color: #ff6b35;
   --dark-color: #1a1a1a;
   --light-color: #f5f5f5;
+  --light-background: #f9f9f9;
   --text-color: #333;
   --text-light: #666;
   --border-color: #ddd;
@@ -61,10 +62,18 @@
   --spacing-xl: 48px;
   --spacing-2xl: 64px;
 
+  /* Padding system (aliases for spacing) */
+  --padding-xs: 8px;
+  --padding-sm: 16px;
+  --padding-md: 24px;
+  --padding-lg: 32px;
+  --padding-xl: 48px;
+
   /* Border radius for modern rounded corners */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --border-radius: 8px;
 
   /* Shadows for depth and hierarchy */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -75,6 +84,7 @@
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
+  --transition: 0.3s ease;
 
   /* Max width for content containers */
   --max-width: 1200px;
