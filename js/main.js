@@ -152,91 +152,197 @@ function initializeNavigation() {
 // ========== CONTACT FORM VALIDATION ==========
 
 /**
- * Initialize contact form handling
- * Validates form inputs before allowing submission
+ * Initialize contact form handling with enhanced validation
+ * Provides real-time field validation and user auth account tracking
  */
 function initializeContactForm() {
     const contactForm = document.querySelector('.contact-form');
     
     if (!contactForm) return;
     
+    // Get all form fields for real-time validation
+    const nameInput = contactForm.querySelector('input[name="name"]');
+    const emailInput = contactForm.querySelector('input[name="email"]');
+    const phoneInput = contactForm.querySelector('input[name="phone"]');
+    const messageInput = contactForm.querySelector('textarea[name="message"]');
+    
+    // Add real-time validation listeners
+    if (nameInput) nameInput.addEventListener('blur', () => validateField('name'));
+    if (emailInput) emailInput.addEventListener('blur', () => validateField('email'));
+    if (phoneInput) phoneInput.addEventListener('blur', () => validateField('phone'));
+    if (messageInput) messageInput.addEventListener('input', () => validateField('message'));
+    
+    // Character count feedback for message
+    if (messageInput) {
+        messageInput.addEventListener('input', () => {
+            const count = messageInput.value.trim().length;
+            const hint = document.getElementById('messageHint');
+            if (hint) {
+                hint.textContent = count > 0 ? `${count} characters${count >= 10 ? ' ✓' : ''}` : 'Minimum 10 characters';
+                if (count >= 10) hint.style.color = '#2ed573';
+                else if (count > 0) hint.style.color = 'var(--text-light)';
+                else hint.style.color = 'var(--text-light)';
+            }
+        });
+    }
+    
     // Listen for form submission
     contactForm.addEventListener('submit', function(event) {
-        // Prevent default form submission behavior
         event.preventDefault();
         
         // Get all form input values
-        const nameInput = contactForm.querySelector('input[name="name"]');
-        const emailInput = contactForm.querySelector('input[name="email"]');
-        const phoneInput = contactForm.querySelector('input[name="phone"]');
-        const messageInput = contactForm.querySelector('textarea[name="message"]');
-        
         const name = nameInput ? nameInput.value.trim() : '';
         const email = emailInput ? emailInput.value.trim() : '';
+        const phone = phoneInput ? phoneInput.value.trim() : '';
         const message = messageInput ? messageInput.value.trim() : '';
+        const destination = contactForm.querySelector('input[name="destination"]')?.value.trim() || '';
         
-        // Validate the form
-        if (!validateForm(name, email, message)) {
-            // If validation fails, the validateForm function shows error
+        // Validate all fields before submission
+        const isNameValid = validateField('name');
+        const isEmailValid = validateField('email');
+        const isPhoneValid = validateField('phone', true); // phone is optional
+        const isMessageValid = validateField('message');
+        
+        if (!isNameValid || !isEmailValid || !isMessageValid) {
+            showErrorMessage('Please fix the errors above');
             return;
         }
         
-        // If validation passes, show success message
-        submitContactForm({
-            name,
-            email,
-            phone: phoneInput ? phoneInput.value.trim() : '',
-            destination: contactForm.querySelector('input[name="destination"]')?.value.trim() || '',
-            message
+        // If validation passes, create user account and submit form
+        createUserAccount(name, email, phone).then(() => {
+            submitContactForm({
+                name,
+                email,
+                phone,
+                destination,
+                message
+            });
         });
     });
+    
+    /**
+     * Validate individual form field
+     * @param {string} fieldName - The name of the field to validate
+     * @param {boolean} isOptional - Whether the field is optional
+     */
+    function validateField(fieldName, isOptional = false) {
+        const field = contactForm.querySelector(`input[name="${fieldName}"], textarea[name="${fieldName}"]`);
+        if (!field) return true;
+        
+        const value = field.value.trim();
+        const errorEl = document.getElementById(`${fieldName}Error`);
+        let error = '';
+        let isValid = true;
+        
+        if (fieldName === 'name') {
+            if (!value && !isOptional) {
+                error = 'Name is required';
+                isValid = false;
+            } else if (value.length < 2 && value.length > 0) {
+                error = 'Name must be at least 2 characters';
+                isValid = false;
+            } else if (value.length > 100) {
+                error = 'Name is too long (max 100 characters)';
+                isValid = false;
+            }
+        } else if (fieldName === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!value && !isOptional) {
+                error = 'Email is required';
+                isValid = false;
+            } else if (value && !emailRegex.test(value)) {
+                error = 'Please enter a valid email address';
+                isValid = false;
+            }
+        } else if (fieldName === 'phone') {
+            if (value && value.length < 10) {
+                error = 'Phone number must be at least 10 characters';
+                isValid = false;
+            }
+        } else if (fieldName === 'message') {
+            if (!value && !isOptional) {
+                error = 'Message is required';
+                isValid = false;
+            } else if (value.length < 10 && value.length > 0) {
+                error = 'Message must be at least 10 characters';
+                isValid = false;
+            } else if (value.length > 2000) {
+                error = 'Message is too long (max 2000 characters)';
+                isValid = false;
+            }
+        }
+        
+        // Update field visual state
+        if (errorEl) errorEl.textContent = error;
+        field.classList.remove('success', 'error');
+        if (isValid && value) {
+            field.classList.add('success');
+        } else if (!isValid) {
+            field.classList.add('error');
+        }
+        
+        return isValid;
+    }
+    
+    console.log('✓ Contact form initialized with enhanced validation');
 }
 
 /**
- * Validate contact form inputs
- * Checks if all required fields are filled and correctly formatted
- * 
+ * Create a user account for the form submitter
+ * Stores user in localStorage for future reference
  * @param {string} name - User's full name
- * @param {string} email - User's email address
- * @param {string} message - User's message/inquiry
- * @returns {boolean} - Returns true if all validations pass, false otherwise
+ * @param {string} email - User's email
+ * @param {string} phone - User's phone (optional)
  */
-function validateForm(name, email, message) {
-    // Rule 1: Check if all fields are filled
-    if (!name) {
-        showErrorMessage('Please enter your name');
-        return false;
+async function createUserAccount(name, email, phone) {
+    try {
+        // Get existing users from localStorage
+        const users = JSON.parse(localStorage.getItem('zeetrivago_users') || '[]');
+        
+        // Check if user already exists
+        const existingUser = users.find(u => u.email === email);
+        if (existingUser) {
+            console.log('✓ User account already exists:', email);
+            return Promise.resolve();
+        }
+        
+        // Create new user account
+        const userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        const newUser = {
+            id: userId,
+            name,
+            email,
+            phone,
+            createdAt: new Date().toISOString(),
+            accountStatus: 'active',
+            preferences: {
+                notifications: true,
+                newsletter: false,
+                travelAlerts: true
+            }
+        };
+        
+        // Store user in localStorage
+        users.push(newUser);
+        localStorage.setItem('zeetrivago_users', JSON.stringify(users));
+        
+        // Store current user session
+        localStorage.setItem('zeetrivago_currentUser', JSON.stringify({
+            id: newUser.id,
+            name: newUser.name,
+            email: newUser.email
+        }));
+        
+        console.log('✓ User account created:', newUser.id);
+        showSuccessMessage(`Account created for ${name}! Welcome to zee trivago.`);
+        
+        return Promise.resolve();
+    } catch (error) {
+        console.error('Account creation error:', error);
+        // Don't block form submission if account creation fails
+        return Promise.resolve();
     }
-    
-    if (!email) {
-        showErrorMessage('Please enter your email address');
-        return false;
-    }
-    
-    if (!message) {
-        showErrorMessage('Please enter a message');
-        return false;
-    }
-    
-    // Rule 2: Validate email format using regular expression
-    // This regex checks for: something@something.something
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        showErrorMessage('Please enter a valid email address (e.g., name@example.com)');
-        return false;
-    }
-    
-    // Rule 3: Check name length (at least 2 characters)
-    if (name.length < 2) {
-        showErrorMessage('Name must be at least 2 characters long');
-        return false;
-    }
-    
-    // Rule 4: Check message length (at least 10 characters)
-    if (message.length < 10) {
-        showErrorMessage('Message must be at least 10 characters long');
-        return false;
-    }
+}
     
     // All validations passed!
     return true;
@@ -751,6 +857,11 @@ function initializeWeatherSearch() {
     const searchBtn = document.getElementById('weatherSearchBtn');
     const locationInput = document.getElementById('weatherLocationInput');
     const resultsContainer = document.getElementById('weatherResults');
+    const suggestionsEl = document.getElementById('weatherSuggestions');
+    const OPEN_WEATHER_API_KEY = '7288e1f589d12cdc243205b3a6d4727f';
+    let selectedSuggestion = null;
+    let activeIndex = -1;
+    let debounceTimer = null;
     
     if (!searchBtn) return;
     
@@ -762,6 +873,81 @@ function initializeWeatherSearch() {
         if (e.key === 'Enter') {
             performWeatherSearch();
         }
+    });
+    
+    // Autocomplete: fetch city suggestions as user types
+    locationInput.addEventListener('input', () => {
+        const q = locationInput.value.trim();
+        selectedSuggestion = null;
+        activeIndex = -1;
+        if (debounceTimer) clearTimeout(debounceTimer);
+        if (q.length < 2) {
+            if (suggestionsEl) suggestionsEl.innerHTML = '';
+            return;
+        }
+        debounceTimer = setTimeout(async () => {
+            try {
+                const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(q)}&limit=5&appid=${OPEN_WEATHER_API_KEY}`;
+                const resp = await fetch(url);
+                const list = await resp.json();
+                renderSuggestions(list || []);
+            } catch (e) {
+                if (suggestionsEl) suggestionsEl.innerHTML = '';
+            }
+        }, 300);
+    });
+    
+    // Keyboard navigation in suggestions
+    locationInput.addEventListener('keydown', (e) => {
+        const items = suggestionsEl?.querySelectorAll('.item') || [];
+        if (!items.length) return;
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeIndex = Math.min(activeIndex + 1, items.length - 1);
+            updateActiveItem(items);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeIndex = Math.max(activeIndex - 1, 0);
+            updateActiveItem(items);
+        } else if (e.key === 'Enter' && activeIndex >= 0) {
+            e.preventDefault();
+            items[activeIndex].click();
+        }
+    });
+    
+    function updateActiveItem(items) {
+        items.forEach(el => el.classList.remove('active'));
+        if (items[activeIndex]) items[activeIndex].classList.add('active');
+    }
+    
+    function renderSuggestions(list) {
+        if (!suggestionsEl) return;
+        if (!list.length) { suggestionsEl.innerHTML = ''; return; }
+        suggestionsEl.innerHTML = list.map((c, idx) => {
+            const secondary = [c.state, c.country].filter(Boolean).join(', ');
+            const label = `${c.name}${secondary ? ', ' + secondary : ''}`;
+            return `<div class="item" role="option" data-lat="${c.lat}" data-lon="${c.lon}" data-label="${label}">
+                        ${c.name}
+                        <span class="secondary">${secondary}</span>
+                    </div>`;
+        }).join('');
+        suggestionsEl.querySelectorAll('.item').forEach((el) => {
+            el.addEventListener('mousedown', (evt) => {
+                evt.preventDefault(); // prevent input blur before click
+                const lat = parseFloat(el.dataset.lat);
+                const lon = parseFloat(el.dataset.lon);
+                const label = el.dataset.label;
+                selectedSuggestion = { lat, lon, label };
+                locationInput.value = label;
+                suggestionsEl.innerHTML = '';
+                performWeatherSearch();
+            });
+        });
+    }
+    
+    // Hide suggestions when input loses focus (slight delay to allow click)
+    locationInput.addEventListener('blur', () => {
+        setTimeout(() => { if (suggestionsEl) suggestionsEl.innerHTML = ''; }, 150);
     });
     
     /**
@@ -780,10 +966,25 @@ function initializeWeatherSearch() {
         resultsContainer.innerHTML = '<div class="loading">🔍 Searching weather...</div>';
         
         try {
-            // Fetch current weather
-            const weatherResponse = await fetch(
-                `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&units=metric&appid=7288e1f589d12cdc243205b3a6d4727f`
-            );
+            let weatherResponse;
+            let forecastResponse;
+            if (selectedSuggestion && !Number.isNaN(selectedSuggestion.lat) && !Number.isNaN(selectedSuggestion.lon)) {
+                const { lat, lon } = selectedSuggestion;
+                weatherResponse = await fetch(
+                    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${OPEN_WEATHER_API_KEY}`
+                );
+                forecastResponse = await fetch(
+                    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${OPEN_WEATHER_API_KEY}`
+                );
+            } else {
+                // Fallback to name-based search
+                weatherResponse = await fetch(
+                    `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&units=metric&appid=${OPEN_WEATHER_API_KEY}`
+                );
+                forecastResponse = await fetch(
+                    `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(location)}&units=metric&appid=${OPEN_WEATHER_API_KEY}`
+                );
+            }
             
             if (!weatherResponse.ok) {
                 const errorData = await weatherResponse.json();
@@ -791,11 +992,6 @@ function initializeWeatherSearch() {
             }
             
             const weatherData = await weatherResponse.json();
-            
-            // Fetch 5-day forecast
-            const forecastResponse = await fetch(
-                `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(location)}&units=metric&appid=7288e1f589d12cdc243205b3a6d4727f`
-            );
             
             if (!forecastResponse.ok) {
                 const errorData = await forecastResponse.json();
@@ -806,6 +1002,7 @@ function initializeWeatherSearch() {
             
             // Display results
             displayWeatherResults(weatherData, forecastData);
+            selectedSuggestion = null;
             
             console.log('✓ Weather fetched for:', location);
         } catch (error) {

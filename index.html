@@ -267,32 +267,45 @@
                         Form fields are properly labeled for best practices
                     -->
                     <form class="contact-form" id="contactForm" method="POST" action="/submit-contact">
+                        <!-- Auth/User Identification Section -->
+                        <div class="form-section-header">Your Information</div>
+                        
                         <div class="form-group">
-                            <label for="name">Full Name</label>
+                            <label for="name">Full Name <span class="required">*</span></label>
                             <input type="text" id="name" name="name" placeholder="Your Name" required>
+                            <span class="field-error" id="nameError"></span>
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email Address</label>
+                            <label for="email">Email Address <span class="required">*</span></label>
                             <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                            <span class="field-error" id="emailError"></span>
+                            <span class="field-hint">We'll create a secure account for you</span>
                         </div>
 
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
                             <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890">
+                            <span class="field-error" id="phoneError"></span>
                         </div>
 
+                        <!-- Travel Preferences Section -->
+                        <div class="form-section-header">Travel Preferences</div>
+                        
                         <div class="form-group">
                             <label for="destination">Preferred Destination</label>
                             <input type="text" id="destination" name="destination" placeholder="Where do you want to go?">
                         </div>
 
                         <div class="form-group">
-                            <label for="message">Message</label>
+                            <label for="message">Message <span class="required">*</span></label>
                             <textarea id="message" name="message" placeholder="Tell us about your travel dreams..." rows="5" required></textarea>
+                            <span class="field-error" id="messageError"></span>
+                            <span class="field-hint">Minimum 10 characters</span>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <button type="submit" class="btn btn-primary btn-submit">Send Message & Create Account</button>
+                        <p class="form-privacy">✓ We respect your privacy. Your data is secure.</p>
                     </form>
 
                     <!-- Contact information displayed alongside form -->
@@ -305,20 +318,42 @@
                             Travel City, TC 12345<br>
                             United States</p>
                             <p><strong>Phone:</strong> <a href="tel:+1234567890">+1 (234) 567-890</a></p>
-                            <p><strong>Email:</strong> <a href="mailto:hello@wanderlust.com">hello@wanderlust.com</a></p>
+                            <p><strong>Email:</strong> <a href="mailto:hello@zeetrivago.com">hello@zeetrivago.com</a></p>
                             <p><strong>Hours:</strong> Monday - Friday, 9am - 6pm EST</p>
                         </address>
                     </div>
                 </div>
 
-                <!-- Google Map Location -->
-                <div class="map-card">
+                <!-- Google Map Location with Enhanced Styling -->
+                <div class="map-card premium-card">
                     <div class="map-details">
+                        <div class="office-badge">🏢 Our Office</div>
                         <h3>Visit Our Office</h3>
-                        <p>zee trivago Travel Agency</p>
-                        <p>123 Adventure Street, Travel City, TC 12345</p>
-                        <p><strong>Hours:</strong> Mon-Fri, 9am - 6pm EST</p>
-                        <p><strong>Phone:</strong> +1 (234) 567-890</p>
+                        <p class="office-name">zee trivago Travel Agency</p>
+                        <div class="office-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <div>
+                                    <div class="detail-label">Address</div>
+                                    <div>123 Adventure Street, Travel City, TC 12345</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🕐</span>
+                                <div>
+                                    <div class="detail-label">Hours</div>
+                                    <div>Mon-Fri, 9am - 6pm EST<br><span class="weekend">Sat-Sun: Closed</span></div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📞</span>
+                                <div>
+                                    <div class="detail-label">Phone</div>
+                                    <div><a href="tel:+1234567890" class="contact-link">+1 (234) 567-890</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-visit" onclick="document.getElementById('map').scrollIntoView({behavior: 'smooth'})">View on Map →</button>
                     </div>
                     <div 
                         id="map" 
@@ -377,6 +412,8 @@
                             placeholder="Enter city name (e.g., Paris, Tokyo, New York)"
                             autocomplete="off"
                         >
+                        <!-- Autocomplete suggestions for city search -->
+                        <div id="weatherSuggestions" class="autocomplete-list" aria-label="City suggestions" role="listbox"></div>
                         <button id="weatherSearchBtn" class="btn btn-primary">Search Weather</button>
                     </div>
                     
